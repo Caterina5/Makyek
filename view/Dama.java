@@ -173,11 +173,5 @@ public class Dama extends JFrame {
 		Component frame = null;
 		JOptionPane.showMessageDialog(frame, s);
 	}
-	
-	public static void main(String[] args) {
-	
-		//Lancio la schermata iniziale
-		new Dama(new Gioco()).setVisible(true);
-	}
 
 }
