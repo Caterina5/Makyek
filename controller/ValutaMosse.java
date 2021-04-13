@@ -12,7 +12,7 @@ public class ValutaMosse
   public Gioco gioco;
   // ci serve per decidere tra 2 mosse di ugual priorietà
   protected Random generatoreCasuale;
-  // la migior mossa
+  // la miglior mossa
   public Mossa migliorMossa = null;
   //priorietà
   public int migliorValutaz;
@@ -94,7 +94,7 @@ protected void simula(Mossa m)
     Casella c1 = (Casella)m.caselleToccate.getLast();
     int pezzo = gioco.contenuto(c1.riga,c1.colonna);
     //controllo se è diventata dama in tal caso torna pedina
-    if (m.fattaDama) pezzo = gioco.declassataPedina(pezzo);
+    //if (m.fattaDama) pezzo = gioco.declassataPedina(pezzo);
     // metto in c0 la prima casella toccata da m e in c1 vuota
     gioco.metti(c0,pezzo);
     gioco.metti(c1,Scacchiera.VUOTA);

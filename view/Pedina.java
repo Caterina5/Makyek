@@ -13,7 +13,8 @@ import model.Scacchiera;
 
 public class Pedina extends Casella {
 
-	
+	private static final long serialVersionUID = 5829315144403763452L;
+
 	public Pedina(int valore) {
 		
 		try {

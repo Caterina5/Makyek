@@ -9,14 +9,25 @@ import model.Scacchiera;
 public class Gioco extends Scacchiera {
 	//istanze
 	
-	//(riga decresce, colonna decresce)
-	public static final int NORD_OVEST = 1;
-	//(riga decresce, colonna cresce)
-	public static final int NORD_EST = 2;
-	// (riga cresce, colonna decresce)
-	public static final int SUD_OVEST = 4;
-	// (riga cresce, colonna cresce)
-	public static final int SUD_EST = 8;
+//	//(riga decresce, colonna decresce)
+//	public static final int NORD_OVEST = 1;
+//	//(riga decresce, colonna cresce)
+//	public static final int NORD_EST = 2;
+//	// (riga cresce, colonna decresce)
+//	public static final int SUD_OVEST = 4;
+//	// (riga cresce, colonna cresce)
+//	public static final int SUD_EST = 8;
+//	// pedina ferma
+//	public static final int FERMA = 0;
+	
+	//(riga decresce, colonna rimane)
+	public static final int NORD = 1;
+	//(riga rimane, colonna cresce)
+	public static final int EST = 2;
+	// (riga rimane, colonna decresce)
+	public static final int OVEST = 4;
+	// (riga cresce, colonna rimane)
+	public static final int SUD = 8;
 	// pedina ferma
 	public static final int FERMA = 0;
 
@@ -39,9 +50,9 @@ public class Gioco extends Scacchiera {
 	public boolean eVersoAvanti(int direz, int colore) {
 		switch (colore) {
 		case Scacchiera.BIANCO:
-			return ((direz == NORD_OVEST) || (direz == NORD_EST));
+			return (direz == NORD || direz == EST || direz == OVEST || direz == SUD);// || (direz == NORD_EST));
 		case Scacchiera.NERO:
-			return ((direz == SUD_OVEST) || (direz == SUD_EST));
+			return (direz == NORD || direz == EST || direz == OVEST || direz == SUD);// || (direz == SUD_EST));
 		}
 		return false;
 	}
@@ -76,17 +87,17 @@ public class Gioco extends Scacchiera {
 	public Casella casellaAdiacente(Casella c, int direz) {
 		Casella c2 = null;
 		switch (direz) {
-		case NORD_OVEST:
-			c2 = new Casella(c.riga - 1, c.colonna - 1);
+		case NORD:
+			c2 = new Casella(c.riga - 1, c.colonna );
 			break;
-		case NORD_EST:
-			c2 = new Casella(c.riga - 1, c.colonna + 1);
+		case EST:
+			c2 = new Casella(c.riga, c.colonna + 1);
 			break;
-		case SUD_OVEST:
-			c2 = new Casella(c.riga + 1, c.colonna - 1);
+		case OVEST:
+			c2 = new Casella(c.riga, c.colonna - 1);
 			break;
-		case SUD_EST:
-			c2 = new Casella(c.riga + 1, c.colonna + 1);
+		case SUD:
+			c2 = new Casella(c.riga + 1, c.colonna);
 			break;
 		}
 		if ((c2 != null) && !eDentro(c2))
@@ -111,14 +122,14 @@ public class Gioco extends Scacchiera {
 		int distanzaColonne = c1.colonna - c2.colonna;
 		if (distanzaRighe > 0) {
 			if (distanzaColonne > 0)
-				return SUD_EST;
+				return SUD;
 			else if (distanzaColonne < 0)
-				return SUD_OVEST;
+				return OVEST;
 		} else if (distanzaRighe < 0) {
 			if (distanzaColonne > 0)
-				return NORD_EST;
+				return EST;
 			else if (distanzaColonne < 0)
-				return NORD_OVEST;
+				return NORD;
 		}
 		return FERMA;
 	}
@@ -343,8 +354,8 @@ public class Gioco extends Scacchiera {
 		int pezzo = contenuto(c0.riga, c0.colonna);
 		metti(c0, VUOTA);
 		Casella c1 = (Casella) m.caselleToccate.getLast();
-		if (m.fattaDama)
-			pezzo = promossaDama(pezzo);
+		//if (m.fattaDama)
+			//pezzo = promossaDama(pezzo);
 		metti(c1, pezzo);
 		ListIterator<Casella> iter = m.caselleMangiate.listIterator();
 		while (iter.hasNext()) {
@@ -406,10 +417,10 @@ public class Gioco extends Scacchiera {
 	public LinkedList<Mossa> suggerisciMosse(Casella cas) {
 		LinkedList<Mossa> mossePossibili = new LinkedList<Mossa>();
 		int pezzo = contenuto(cas);
-		// nessuna mossa da casella vuota
+		// nessuna mossa da casella vuota selezionata
 		if (pezzo == VUOTA)
 			return mossePossibili;
-		// esplora l-albero di tutte le possibilita'
+		// se la casella selezionata contiene una pedina, esplora l-albero di tutte le possibilita'
 		Mossa m = new Mossa(cas);
 		suggerisciMosseRic(m, mossePossibili);
 		return mossePossibili;
@@ -419,8 +430,9 @@ public class Gioco extends Scacchiera {
 	 // Funzione ausiliaria, ricirsiva, trova le mosse possibili per il pezzo che
 	 // si trova nella casella specificata, e le aggiunge alla lista.
 	 
-	
-	protected void suggerisciMosseRic(Mossa m0, LinkedList<Mossa> mosse) {
+	//funzione ricorsiva che permette di evidenziare tutte le mosse possibili da una certa casella selezionata
+	//questa funzione viene chiamata dalla funzione sopra nel caso in cui ho selezionato effettivamente una pedina e non una casella vuota
+	protected void suggerisciMosseRic(Mossa m0, LinkedList<Mossa> mosse) { 
 		int i;
 		boolean[] ciSonoMosse = new boolean[4];
 		Mossa[] quattro = new Mossa[4];
@@ -428,13 +440,13 @@ public class Gioco extends Scacchiera {
 			ciSonoMosse[i] = false;
 			quattro[i] = new Mossa(m0);
 		}
-		if (puoAndare(quattro[0], NORD_EST))
+		if (puoAndare(quattro[0], NORD)) 
 			ciSonoMosse[0] = true;
-		if (puoAndare(quattro[1], NORD_OVEST))
+		if (puoAndare(quattro[1], OVEST))
 			ciSonoMosse[1] = true;
-		if (puoAndare(quattro[2], SUD_EST))
+		if (puoAndare(quattro[2], EST))
 			ciSonoMosse[2] = true;
-		if (puoAndare(quattro[3], SUD_OVEST))
+		if (puoAndare(quattro[3], SUD))
 			ciSonoMosse[3] = true;
 		if (!ciSonoMosse[0] && !ciSonoMosse[1] && !ciSonoMosse[2]
 				&& !ciSonoMosse[3]) {

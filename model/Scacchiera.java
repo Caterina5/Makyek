@@ -43,13 +43,12 @@ public class Scacchiera
     
     for (int r=0; r<DIM_LATO; r++)
 	    for (int c=0; c<DIM_LATO; c++){
-	      if (eNera(r,c)){
-	         if (r<3) // le tre righe in alto
+	      if (r == 0 || r == 2)
+	         //if (r<3) // le tre righe in alto
 	           contenutoCaselle[r][c] = PEDINA_NERA;
-	         else if (r>4) // le tre righe in basso
+	      else if (r==5 || r == 7) // le tre righe in basso
 	           contenutoCaselle[r][c] = PEDINA_BIANCA;
-	         else contenutoCaselle[r][c] = VUOTA; // le 2 righe centrali
-	      }
+	      //}
 	      else contenutoCaselle[r][c] = VUOTA; // caselle bianche
 	    }
   }
@@ -109,25 +108,25 @@ public class Scacchiera
   }
   
   
-  public int promossaDama(int pezzo)
-  {
-    switch (pezzo)
-    {
-      case PEDINA_NERA: case DAMA_NERA: return DAMA_NERA;
-      case PEDINA_BIANCA: case DAMA_BIANCA: return DAMA_BIANCA;
-    }
-    return VUOTA;
-  }
+//  public int promossaDama(int pezzo)
+//  {
+//    switch (pezzo)
+//    {
+//      case PEDINA_NERA: case DAMA_NERA: return DAMA_NERA;
+//      case PEDINA_BIANCA: case DAMA_BIANCA: return DAMA_BIANCA;
+//    }
+//    return VUOTA;
+//  }
 
   
-  public int declassataPedina(int pezzo)
-  {
-    switch (pezzo)
-    {
-      case PEDINA_NERA: case DAMA_NERA: return PEDINA_NERA;
-      case PEDINA_BIANCA: case DAMA_BIANCA: return PEDINA_BIANCA;
-    }
-    return VUOTA;
-  }
+//  public int declassataPedina(int pezzo)
+//  {
+//    switch (pezzo)
+//    {
+//      case PEDINA_NERA: case DAMA_NERA: return PEDINA_NERA;
+//      case PEDINA_BIANCA: case DAMA_BIANCA: return PEDINA_BIANCA;
+//    }
+//    return VUOTA;
+//  }
 
 }

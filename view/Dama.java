@@ -32,7 +32,7 @@ public class Dama extends JFrame {
 
 	//costruttore
 	public Dama(Gioco gioco) {
-		super("inserire titolo");
+		super("Mak-Yek");
 		dash = gioco;
 
 				
@@ -64,6 +64,7 @@ public class Dama extends JFrame {
 			for (int x = 0; x < 8; x++) {
 				
 				//Vuol dire che ho chiamato lo showBoard con l'intento di visuallizare le mosse suggerite
+				//qui entra quando viene chiamato a riga 108 per mostrare le mosse suggerite relative a una casella selezionata
 				if (xiniziale != -1) {
 					trovata=false;
 					//lista delle mosse della casella (xiniziale yinizliale)
@@ -138,7 +139,7 @@ public class Dama extends JFrame {
 		}
 	}
 
-	private Casella generaPedina(int valore, int x, int y, boolean colore) {
+	private Casella generaPedina(int valore, int x, int y, boolean colore) { //crea una pedina del colore giusto
 		// Genero le pedine
 		if (valore >= 1 && valore <= 4 && colore == false)
 			return new Pedina(valore);
