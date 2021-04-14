@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.Color;
 import java.awt.Image;
 import java.io.IOException;
 
@@ -26,10 +27,12 @@ public class Pedina extends Casella {
 			if(valore==1)
 			{
 				Icon icona = new ImageIcon(pedinaBianca);
+				this.setBackground(Color.lightGray);
 				this.setIcon(icona);
 			}
 			else if(valore==2){
 				Icon icona = new ImageIcon(pedinaNera);
+				this.setBackground(Color.lightGray);
 				this.setIcon(icona);	
 			}
 			else if(valore==3){

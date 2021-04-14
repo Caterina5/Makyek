@@ -32,7 +32,7 @@ public class Gioco extends Scacchiera {
 	public static final int FERMA = 0;
 
 	//turno
-	public int aChiTocca = BIANCO;
+	public int aChiTocca = GiocatoreBIANCO;
 	// Mossa in preparazione per essere poi eseguita. 
 	public Mossa mossaInFormazione = null;
 
@@ -49,9 +49,9 @@ public class Gioco extends Scacchiera {
 	// controlla la direzione
 	public boolean eVersoAvanti(int direz, int colore) {
 		switch (colore) {
-		case Scacchiera.BIANCO:
+		case Scacchiera.GiocatoreBIANCO:
 			return (direz == NORD || direz == EST || direz == OVEST || direz == SUD);// || (direz == NORD_EST));
-		case Scacchiera.NERO:
+		case Scacchiera.GiocatoreNERO:
 			return (direz == NORD || direz == EST || direz == OVEST || direz == SUD);// || (direz == SUD_EST));
 		}
 		return false;
@@ -59,24 +59,25 @@ public class Gioco extends Scacchiera {
 
 	//controlla la direzione date due caselle
 	public boolean eVersoAvanti(Casella c1, Casella c2, int colore) {
-		switch (colore) {
-		case BIANCO:
-			return (c2.riga < c1.riga);
-		case NERO:
-			return (c2.riga > c1.riga);
-		}
-		return false;
+//		switch (colore) {
+//		case BIANCO:
+//			return (c2.riga < c1.riga);
+//		case NERO:
+//			return (c2.riga > c1.riga);
+//		}
+//		return false;
+		return true;
 	}
 
 	
-	 // Ritorna il colore opposto a quello dato: bianco per nero e nero per
+//	  Ritorna il colore opposto a quello dato: bianco per nero e nero per bianco
 	 
 	public int coloreOpposto(int colore) {
 		switch (colore) {
-		case BIANCO:
-			return NERO;
-		case NERO:
-			return BIANCO;
+		case GiocatoreBIANCO:
+			return GiocatoreNERO;
+		case GiocatoreNERO:
+			return GiocatoreBIANCO;
 		}
 		return NON_COLORE;
 	}
@@ -275,10 +276,10 @@ public class Gioco extends Scacchiera {
 		int col = colore(pezzo);
 		// if (col!=aChiTocca)
 		// { msg = "No: non tocca a questo colore"; return false; }
-		if (ePedina(pezzo) && (!eVersoAvanti(c1, cas, col))) {
-			msg = "No: pedina muove solo verso avanti";
-			return false;
-		}
+//		if (ePedina(pezzo) && (!eVersoAvanti(c1, cas, col))) {
+//			msg = "No: pedina muove solo verso avanti";
+//			return false;
+//		}
 		if (adiacenteDiretta(c1, cas)) {
 			// se il pezzo e' ancora al punto di partenza allora si
 			if (m.caselleToccate.size() == 1) {
@@ -362,10 +363,10 @@ public class Gioco extends Scacchiera {
 			Casella c = (Casella) iter.next();
 			metti(c, VUOTA);
 		}
-		if (aChiTocca == BIANCO)
-			aChiTocca = NERO;
+		if (aChiTocca == GiocatoreBIANCO)
+			aChiTocca = GiocatoreNERO;
 		else
-			aChiTocca = BIANCO;
+			aChiTocca = GiocatoreBIANCO;
 	}
 
 	// Se uno dei due giocatori ha vinto, ritorna il colore del vincitore,
@@ -382,12 +383,12 @@ public class Gioco extends Scacchiera {
 		//System.out.println("CHI HA VINTO");
 		for (r = 0; r < DIM_LATO; r++)
 			for (c = 0; c < DIM_LATO; c++) {
-				if (colore(contenuto(r, c)) == BIANCO) {
+				if (colore(contenuto(r, c)) == GiocatoreBIANCO) {
 					biancoHaPezzi = true;
 					possibili = suggerisciMosse(new Casella(r, c));
 					if (possibili.size() > 0)
 						biancoHaMosse = true;
-				} else if (colore(contenuto(r, c)) == NERO) {
+				} else if (colore(contenuto(r, c)) == GiocatoreNERO) {
 					neroHaPezzi = true;
 					possibili = suggerisciMosse(new Casella(r, c));
 					if (possibili.size() > 0)
@@ -399,13 +400,13 @@ public class Gioco extends Scacchiera {
 			}
 		// almeno uno dei due non ha mosse, vince l'altro
 		if (!biancoHaPezzi)
-			return NERO;
+			return GiocatoreNERO;
 		if (!neroHaPezzi)
-			return BIANCO;
+			return GiocatoreBIANCO;
 		if (!biancoHaMosse)
-			return NERO;
+			return GiocatoreNERO;
 		if (!neroHaMosse)
-			return BIANCO;
+			return GiocatoreBIANCO;
 		// non dovrebbe succedere
 		return NON_COLORE;
 	}
@@ -475,7 +476,7 @@ public class Gioco extends Scacchiera {
 			for (c1 = 0; c1 < Scacchiera.DIM_LATO; c1++) {
 
 				//Controllo se il computer deve mangiare
-				if (colore(contenuto(r1, c1)) == NERO) {
+				if (colore(contenuto(r1, c1)) == GiocatoreNERO) {
 					// System.out.println(r1+" "+c1);
 					LinkedList<Mossa> prova = gioco.suggerisciMosse(new Casella(r1, c1));
 
@@ -513,7 +514,7 @@ public class Gioco extends Scacchiera {
 		for (r1 = 0; r1 < Scacchiera.DIM_LATO; r1++) {
 			for (c1 = 0; c1 < Scacchiera.DIM_LATO; c1++) {
 
-				if (colore(contenuto(r1, c1)) == BIANCO) {
+				if (colore(contenuto(r1, c1)) == GiocatoreBIANCO) {
 					// System.out.println(r1+" "+c1);
 					LinkedList<Mossa> prova = this.suggerisciMosse(new Casella(r1, c1));
 
@@ -533,7 +534,7 @@ public class Gioco extends Scacchiera {
 		for (r1 = 0; r1 < Scacchiera.DIM_LATO; r1++) {
 			for (c1 = 0; c1 < Scacchiera.DIM_LATO; c1++) {
 
-				if (colore(contenuto(r1, c1)) == BIANCO) {
+				if (colore(contenuto(r1, c1)) == GiocatoreBIANCO) {
 					// System.out.println(r1+" "+c1);
 					LinkedList<Mossa> prova = this.suggerisciMosse(new Casella(r1, c1));
 

@@ -129,10 +129,10 @@ protected void simula(Mossa m)
          pedineBianche++;
       else if (gioco.contenuto(r,c)==Scacchiera.PEDINA_NERA)
          pedineNere++;
-      else if (gioco.contenuto(r,c)==Scacchiera.DAMA_BIANCA)
-         dameBianche++;
-      else if (gioco.contenuto(r,c)==Scacchiera.DAMA_NERA)
-         dameNere++;
+//      else if (gioco.contenuto(r,c)==Scacchiera.DAMA_BIANCA)
+//         dameBianche++;
+//      else if (gioco.contenuto(r,c)==Scacchiera.DAMA_NERA)
+//         dameNere++;
     }
 //System.out.println("Bianco ha "+pedineBianche+" pedine e "+dameBianche+" dame");
 //System.out.println("Nero ha "+pedineNere+" pedine e "+dameNere+" dame");
@@ -181,7 +181,7 @@ protected void simula(Mossa m)
     for (r1=0; r1<Scacchiera.DIM_LATO; r1++)
     for (c1=0; c1<Scacchiera.DIM_LATO; c1++)
     {        // controllo le nere
-      if (gioco.colore(gioco.contenuto(r1,c1))==Scacchiera.NERO)
+      if (gioco.colore(gioco.contenuto(r1,c1))==Scacchiera.GiocatoreNERO)
       { // metto in possibili le mosse del suggerisci mosse per la casella ri ci
         possibili1 = gioco.suggerisciMosse(new Casella(r1,c1));
         if (possibili1!=null)
@@ -196,7 +196,7 @@ protected void simula(Mossa m)
             for (r2=0; r2<Scacchiera.DIM_LATO; r2++)   
             for (c2=0; c2<Scacchiera.DIM_LATO; c2++)   
             {        // simulo tutte le contromosse per m1
-              if (gioco.colore(gioco.contenuto(r2,c2))==Scacchiera.BIANCO)
+              if (gioco.colore(gioco.contenuto(r2,c2))==Scacchiera.GiocatoreBIANCO)
               {
                 possibili2 = gioco.suggerisciMosse(new Casella(r2,c2));
                 if (possibili2!=null)

@@ -15,8 +15,8 @@ public class Scacchiera
   public static final int DAMA_NERA = 4;
   
   public static final int NON_COLORE = 0;
-  public static final int BIANCO = 1;
-  public static final int NERO = 2;
+  public static final int GiocatoreBIANCO = 1;
+  public static final int GiocatoreNERO = 2;
   
   
   protected int[][] contenutoCaselle;
@@ -60,8 +60,8 @@ public class Scacchiera
   {
     switch(pezzo)
     {
-      case PEDINA_BIANCA: case DAMA_BIANCA: return BIANCO;
-      case PEDINA_NERA: case DAMA_NERA: return NERO;
+       case PEDINA_BIANCA: case DAMA_BIANCA: return GiocatoreBIANCO;
+       case PEDINA_NERA: case DAMA_NERA: return GiocatoreNERO;
     }
     return NON_COLORE;
   }  
@@ -76,12 +76,15 @@ public class Scacchiera
   public int contenuto(Casella cas)
   {  return contenutoCaselle[cas.riga][cas.colonna];  }
 
+  
   public boolean metti(int r, int c, int pezzo)
   {
     if ( (pezzo>=0) && (pezzo<=4) )
     {  contenutoCaselle[r][c] = pezzo; return true;  }
     else return false;
   }  
+  
+  
   public boolean metti(Casella cas, int pezzo)
   {  return metti(cas.riga, cas.colonna, pezzo);  }
 
@@ -101,8 +104,8 @@ public class Scacchiera
   {
     switch (col)
     {
-      case NERO: return ( c.riga==(DIM_LATO-1) );
-      case BIANCO: return ( c.riga==0 );
+      case GiocatoreNERO: return ( c.riga==(DIM_LATO-1) );
+      case GiocatoreBIANCO: return ( c.riga==0 );
     }
     return false;
   }

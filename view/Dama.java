@@ -28,12 +28,12 @@ public class Dama extends JFrame {
 	protected Point click2 = null;
 	protected JButton p1 = null;
 	protected JButton p2 = null;
-	protected Gioco dash;
+	protected Gioco gioco;
 
 	//costruttore
 	public Dama(Gioco gioco) {
 		super("Mak-Yek");
-		dash = gioco;
+		this.gioco = gioco;
 
 				
 		// Imposto la grafica
@@ -68,14 +68,14 @@ public class Dama extends JFrame {
 				if (xiniziale != -1) {
 					trovata=false;
 					//lista delle mosse della casella (xiniziale yinizliale)
-					LinkedList<Mossa> mossePedina = dash.suggerisciMosse(new controller.Casella(xiniziale, yiniziale));
+					LinkedList<Mossa> mossePedina = gioco.suggerisciMosse(new controller.Casella(xiniziale, yiniziale));
 					// Controllo se la mossa è fattibile e memorizzo l'ultima casella raggiunta in casella
 						for (int i = 0; i < mossePedina.size(); i++) {
 						Mossa pop = (Mossa) mossePedina.get(i);
 						controller.Casella casella =  (controller.Casella) pop.caselleToccate.getLast();
 						// Se stiamo iterando una delle caselle appartenenti a caselle toccate di pop
 							if (casella.riga == y && casella.colonna == x) {
-								if (dash.mangiataObbligatoria(xiniziale, yiniziale, casella.riga, casella.colonna)) 
+								if (gioco.mangiataObbligatoria(xiniziale, yiniziale, casella.riga, casella.colonna)) 
 								trovata = true;
 							}
 							
@@ -87,10 +87,10 @@ public class Dama extends JFrame {
 			//se la casella x,y corrisponde a una casella suggerita verrà colorata altrimenti
 			//gli viene assegnata la pedina corrispondente
 				if(trovata){
-					p = generaPedina(dash.contenuto(y, x), 0, 0, true);
+					p = generaPedina(gioco.contenuto(y, x), 0, 0, true);
 				}
 				else{
-					p = generaPedina(dash.contenuto(y, x), x, y, false);
+					p = generaPedina(gioco.contenuto(y, x), x, y, false);
 				}
 				
 				p.addActionListener(new ActionListener() {
@@ -98,10 +98,10 @@ public class Dama extends JFrame {
 					public void actionPerformed(ActionEvent e) {
 
 						//primo click, se ho cliccato su una pedina del player
-						if (dash.colore(dash.contenuto(p.getPosizione().x,p.getPosizione().y)) == Scacchiera.BIANCO) 
+						if (gioco.colore(gioco.contenuto(p.getPosizione().x,p.getPosizione().y)) == Scacchiera.GiocatoreBIANCO) 
 						{
 							click1 = p.getPosizione();
-							System.out.println("primo click: " + click1);
+//	--------------						System.out.println("primo click: " + click1);
 							// Distruggo e ridisegno la grafica
 							getContentPane().removeAll();
 							//passo alla showBoard il primo click
@@ -112,8 +112,8 @@ public class Dama extends JFrame {
 						else if (click1 != null) {
 							//Secondo click
 							click2 = p.getPosizione();
-							System.out.println("secondo click: " + click2);
-							String messaggio = dash.provaMossaGiocatore(click1.x, click1.y, click2.x, click2.y);
+//	----------------						System.out.println("secondo click: " + click2);
+							String messaggio = gioco.provaMossaGiocatore(click1.x, click1.y, click2.x, click2.y);
 						
 							
 							// Resetto i click
@@ -151,19 +151,19 @@ public class Dama extends JFrame {
 		}
 		
 		if (valore == 0) {
-			if (dash.eNera(x, y)) {
-				return new Vuota(Color.gray);
+			if (gioco.eNera(x, y)) {
+				return new Vuota(Color.lightGray);
 			}
 		}
 
 		// Penso a colorare la parte centrale
 		if (y == 3)
 			if (x % 2 == 1)
-				return new Vuota(Color.gray);
+				return new Vuota(Color.lightGray);
 		// Penso a colorare la parte centrale
 		if (y == 4)
 			if (x % 2 == 0)
-				return new Vuota(Color.gray);
+				return new Vuota(Color.lightGray);
 
 		// Di default tutto è bianco
 		return new Vuota();
