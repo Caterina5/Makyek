@@ -91,9 +91,8 @@ public class Scacchiera
   // Controlla, date riga e colonna, se una casella e' dentro i
   // limiti della scacchiera.
    
-  public boolean eDentro(int riga, int colonna)
-  {  return ( (riga>=0) && (riga<DIM_LATO) &&
-              (colonna>=0) && (colonna<DIM_LATO) );
+  public boolean eDentro(int riga, int colonna){  
+	  return ( ((riga>=0) && (riga<DIM_LATO)) && ((colonna>=0) && (colonna<DIM_LATO)) );
   }
   
   //
