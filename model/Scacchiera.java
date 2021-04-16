@@ -100,36 +100,14 @@ public class Scacchiera
   public boolean eDentro(Casella c)  {  return eDentro(c.riga,c.colonna);  }
 
  
-  public boolean bordoOpposto(Casella c, int col)
-  {
-    switch (col)
-    {
-      case GiocatoreNERO: return ( c.riga==(DIM_LATO-1) );
-      case GiocatoreBIANCO: return ( c.riga==0 );
-    }
-    return false;
-  }
-  
-  
-//  public int promossaDama(int pezzo)
+//  public boolean bordoOpposto(Casella c, int col)
 //  {
-//    switch (pezzo)
+//    switch (col)
 //    {
-//      case PEDINA_NERA: case DAMA_NERA: return DAMA_NERA;
-//      case PEDINA_BIANCA: case DAMA_BIANCA: return DAMA_BIANCA;
+//      case GiocatoreNERO: return ( c.riga==(DIM_LATO-1) );
+//      case GiocatoreBIANCO: return ( c.riga==0 );
 //    }
-//    return VUOTA;
-//  }
-
-  
-//  public int declassataPedina(int pezzo)
-//  {
-//    switch (pezzo)
-//    {
-//      case PEDINA_NERA: case DAMA_NERA: return PEDINA_NERA;
-//      case PEDINA_BIANCA: case DAMA_BIANCA: return PEDINA_BIANCA;
-//    }
-//    return VUOTA;
+//    return false;
 //  }
 
 }

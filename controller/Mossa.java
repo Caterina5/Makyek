@@ -7,20 +7,19 @@ public class Mossa
 {
 //istanze	
   // Lista delle caselle toccate. 
-  public LinkedList<Casella> caselleToccate;
+  public ArrayList<Casella> caselleToccate;
   // Lista delle caselle mangiate
-  public LinkedList<Casella> caselleMangiate;
+  public ArrayList<Casella> caselleMangiate;
   // Indica se la mossa termina promuovendo una pedina a dama.
   public boolean fattaDama;
   
  // costruttore 
 
-  public Mossa(Casella partenza)
-  {  
-    caselleToccate = new LinkedList<Casella>();
-    caselleMangiate = new LinkedList<Casella>();
+  public Mossa(Casella partenza){  
+    caselleToccate = new ArrayList<Casella>();
+    caselleMangiate = new ArrayList<Casella>();
     // la prima casella toccata è quella di partenza
-    caselleToccate.addLast(partenza);
+    caselleToccate.add(caselleToccate.size(),partenza);
     fattaDama = false;
   }
 
@@ -28,8 +27,8 @@ public class Mossa
    
   public Mossa(Mossa daCopiare)
   {  
-    caselleToccate = new LinkedList<Casella>(daCopiare.caselleToccate);
-    caselleMangiate = new LinkedList<Casella>(daCopiare.caselleMangiate);
+    caselleToccate = new ArrayList<Casella>(daCopiare.caselleToccate);
+    caselleMangiate = new ArrayList<Casella>(daCopiare.caselleMangiate);
     fattaDama = daCopiare.fattaDama;
   }
 

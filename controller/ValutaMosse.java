@@ -177,7 +177,7 @@ protected void simula(Mossa m)
     int r1, c1, r2, c2;
     int valutaz;
     migliorMossa = null;
-    LinkedList<Mossa> possibili1 = null;
+    ArrayList<Mossa> possibili1 = null;
     for (r1=0; r1<Scacchiera.DIM_LATO; r1++)
     for (c1=0; c1<Scacchiera.DIM_LATO; c1++)
     {        // controllo le nere
@@ -186,7 +186,7 @@ protected void simula(Mossa m)
         possibili1 = gioco.suggerisciMosse(new Casella(r1,c1));
         if (possibili1!=null)
         {
-          LinkedList<Mossa> possibili2 = null;
+          ArrayList<Mossa> possibili2 = null;
           ListIterator<Mossa> iter1 = possibili1.listIterator();
           while (iter1.hasNext())
           {	//simulo la prima mossa della lista delle possibili

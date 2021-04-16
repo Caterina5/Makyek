@@ -10,7 +10,7 @@ import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.LinkedList;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -18,19 +18,19 @@ import javax.swing.JOptionPane;
 import javax.swing.border.LineBorder;
 
 import model.Scacchiera;
+import view.Casella;
 import controller.Gioco;
 import controller.Mossa;
 
 public class Dama extends JFrame {
-	//istanze
-
+	
+	private static final long serialVersionUID = -3736871995616939993L;
 	protected Point click1 = null;
 	protected Point click2 = null;
 	protected JButton p1 = null;
 	protected JButton p2 = null;
 	protected Gioco gioco;
 
-	//costruttore
 	public Dama(Gioco gioco) {
 		super("Mak-Yek");
 		this.gioco = gioco;
@@ -50,8 +50,6 @@ public class Dama extends JFrame {
 		this.setLocation(x, y);
 	}
 	
-	//metodi
-	
 	// Metodo che genera i bottoni e quindi la grafica che assumerà la dama.
 	 
 	private void showBoard(int xiniziale, int yiniziale) {
@@ -62,24 +60,21 @@ public class Dama extends JFrame {
 		//inizio scansione scacchiera
 		for (int y = 0; y < 8; y++) {
 			for (int x = 0; x < 8; x++) {
-				
+				trovata=false;
 				//Vuol dire che ho chiamato lo showBoard con l'intento di visuallizare le mosse suggerite
 				//qui entra quando viene chiamato a riga 108 per mostrare le mosse suggerite relative a una casella selezionata
 				if (xiniziale != -1) {
 					trovata=false;
 					//lista delle mosse della casella (xiniziale yinizliale)
-					LinkedList<Mossa> mossePedina = gioco.suggerisciMosse(new controller.Casella(xiniziale, yiniziale));
+					ArrayList<controller.Casella> mossePedina = gioco.suggerisciMosse(new controller.Casella(xiniziale, yiniziale));
 					// Controllo se la mossa è fattibile e memorizzo l'ultima casella raggiunta in casella
+					System.out.println("Mosse trovate:" + mossePedina.size());
 						for (int i = 0; i < mossePedina.size(); i++) {
-						Mossa pop = (Mossa) mossePedina.get(i);
-						controller.Casella casella =  (controller.Casella) pop.caselleToccate.getLast();
-						// Se stiamo iterando una delle caselle appartenenti a caselle toccate di pop
-							if (casella.riga == y && casella.colonna == x) {
-								if (gioco.mangiataObbligatoria(xiniziale, yiniziale, casella.riga, casella.colonna)) 
-								trovata = true;
-							}
-							
-						    
+							System.out.println("Possibile mossa numero " + i + ": " + mossePedina.get(i).riga + ", " + mossePedina.get(i).colonna);
+
+//							// Se stiamo iterando una delle caselle appartenenti a caselle toccate di pop
+								if (mossePedina.get(i).riga == y && mossePedina.get(i).colonna == x) 
+									trovata = true;
 				        }
 				}//Fine IF
 				
@@ -101,10 +96,10 @@ public class Dama extends JFrame {
 						if (gioco.colore(gioco.contenuto(p.getPosizione().x,p.getPosizione().y)) == Scacchiera.GiocatoreBIANCO) 
 						{
 							click1 = p.getPosizione();
-//	--------------						System.out.println("primo click: " + click1);
+							System.out.println("primo click: " + click1);
 							// Distruggo e ridisegno la grafica
 							getContentPane().removeAll();
-							//passo alla showBoard il primo click
+							//passo alla showBoard il primo click, richiamo questa stessa funzione e vado nel primo if
 							showBoard(p.getPosizione().x,p.getPosizione().y);
 							invalidate();
 							validate();
@@ -112,7 +107,7 @@ public class Dama extends JFrame {
 						else if (click1 != null) {
 							//Secondo click
 							click2 = p.getPosizione();
-//	----------------						System.out.println("secondo click: " + click2);
+							System.out.println("secondo click: " + click2);
 							String messaggio = gioco.provaMossaGiocatore(click1.x, click1.y, click2.x, click2.y);
 						
 							

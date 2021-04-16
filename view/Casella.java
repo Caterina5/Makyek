@@ -7,7 +7,7 @@ import javax.swing.JButton;
 
 public abstract class Casella extends JButton{
 	
-	
+	private static final long serialVersionUID = 4594089746246163139L;
 
 	protected Casella() {
 		//Di default è grigio
