@@ -20,8 +20,8 @@ public class Gioco extends Scacchiera {
 	// pedina ferma
 	public static final int FERMA = 0;
 	
-	Giocatore giocatoreBianco = new Giocatore(Colore.BIANCO);
-	Giocatore giocatoreNero = new Giocatore(Colore.NERO);
+	public Giocatore giocatoreBianco = new Giocatore(Colore.BIANCO);
+	public Giocatore giocatoreNero = new Giocatore(Colore.NERO);
 
 //	//turno
 //	public int aChiTocca = GiocatoreBIANCO;
@@ -476,7 +476,7 @@ public class Gioco extends Scacchiera {
 	//Metodo che esegue la mossa del Computer, cercando la mossa migliore che sia a suo favore.
 	public void mossaComputer() {
 //		System.out.println("Rimango bloccato nella mossa del pc");
-//		Gioco gioco = this;
+		Gioco gioco = this;
 //		int r1, c1, max = 0;
 //		Mossa mossamax = null;
 //
@@ -502,7 +502,7 @@ public class Gioco extends Scacchiera {
 //			}
 //		}
 //
-//		//Non deve mangiare, allora valuto la mossa migliore che mi restituisce l'intelligenza artificiale
+//	//Non deve mangiare, allora valuto la mossa migliore che mi restituisce l'intelligenza artificiale
 //		if (max == 0) {
 //			ValutaMosse prova = new ValutaMosse(this);
 //			Mossa pop = prova.mossaMigliore();
@@ -586,7 +586,7 @@ public class Gioco extends Scacchiera {
 				trovata = true;
 				esegui(new Casella(x1,y1), new Casella(x2,y2));
 				if(puoAncoraGiocare(giocatoreNero)) {
-					mossaComputer();
+					//mossaComputer();
 					if(!puoAncoraGiocare(giocatoreBianco))
 						return endGame();
 				}else {

@@ -67,12 +67,11 @@ public class Dama extends JFrame {
 					trovata=false;
 					//lista delle mosse della casella (xiniziale yinizliale)
 					ArrayList<controller.Casella> mossePedina = gioco.suggerisciMosse(new controller.Casella(xiniziale, yiniziale));
-					// Controllo se la mossa è fattibile e memorizzo l'ultima casella raggiunta in casella
 					System.out.println("Mosse trovate:" + mossePedina.size());
 						for (int i = 0; i < mossePedina.size(); i++) {
 							System.out.println("Possibile mossa numero " + i + ": " + mossePedina.get(i).riga + ", " + mossePedina.get(i).colonna);
-
-//							// Se stiamo iterando una delle caselle appartenenti a caselle toccate di pop
+							// Se stiamo iterando su una delle caselle appartenenti alle possibili mosse, la booleana diventra true così che a rigo 83 la casella 
+							//venga colorata di rosso
 								if (mossePedina.get(i).riga == y && mossePedina.get(i).colonna == x) 
 									trovata = true;
 				        }
@@ -93,21 +92,31 @@ public class Dama extends JFrame {
 					public void actionPerformed(ActionEvent e) {
 
 						//primo click, se ho cliccato su una pedina del player
-						if (gioco.colore(gioco.contenuto(p.getPosizione().x,p.getPosizione().y)) == Scacchiera.GiocatoreBIANCO) 
-						{
+						if (gioco.colore(gioco.contenuto(p.getPosizione().x,p.getPosizione().y)) == Scacchiera.GiocatoreBIANCO && gioco.giocatoreBianco.isTurno()) {
 							click1 = p.getPosizione();
-							System.out.println("primo click: " + click1);
+							System.out.println("primo click giocatore bianco: " + click1);
 							// Distruggo e ridisegno la grafica
 							getContentPane().removeAll();
 							//passo alla showBoard il primo click, richiamo questa stessa funzione e vado nel primo if
 							showBoard(p.getPosizione().x,p.getPosizione().y);
 							invalidate();
 							validate();
-						} 
-						else if (click1 != null) {
+						}
+						
+						else if(gioco.colore(gioco.contenuto(p.getPosizione().x,p.getPosizione().y)) == Scacchiera.GiocatoreNERO && gioco.giocatoreNero.isTurno()) {
+							click1 = p.getPosizione();
+							System.out.println("primo click giocatore nero: " + click1);
+							// Distruggo e ridisegno la grafica
+							getContentPane().removeAll();
+							//passo alla showBoard il primo click, richiamo questa stessa funzione e vado nel primo if
+							showBoard(p.getPosizione().x,p.getPosizione().y);
+							invalidate();
+							validate();
+						}					
+						else if (click1 != null && gioco.giocatoreBianco.isTurno()) {
 							//Secondo click
 							click2 = p.getPosizione();
-							System.out.println("secondo click: " + click2);
+							System.out.println("secondo click giocatore bianco: " + click2);
 							String messaggio = gioco.provaMossaGiocatore(click1.x, click1.y, click2.x, click2.y);
 						
 							
@@ -125,6 +134,26 @@ public class Dama extends JFrame {
 								stampaMessaggio(messaggio);
 
 						} //Fine secondo click
+						else if(click1 != null && gioco.giocatoreNero.isTurno()) {
+							//Secondo click
+							click2 = p.getPosizione();
+							System.out.println("secondo click giocatore nero: " + click2);
+							String messaggio = gioco.provaMossaGiocatore(click1.x, click1.y, click2.x, click2.y);
+						
+							
+							// Resetto i click
+							click1 = null;
+							click2 = null;
+
+							// Distruggo e ridisegno la grafica
+							getContentPane().removeAll();
+							showBoard(-1,-1);
+							invalidate();
+							validate();
+
+							if (messaggio != null)
+								stampaMessaggio(messaggio);
+						}
 					}
 				});
 
