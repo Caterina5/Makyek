@@ -408,7 +408,7 @@ public class Gioco extends Scacchiera {
 			c2 = new Casella(c.riga + 1, c.colonna);
 			break;
 		}
-		System.out.println("coordinate r: " + c.riga + ", " + c.colonna);
+//		System.out.println("coordinate r: " + c.riga + ", " + c.colonna);
 		return c2;
 	}
 
@@ -421,7 +421,7 @@ public class Gioco extends Scacchiera {
 	protected void suggerisciMosseRick(Casella c, int direzione, ArrayList<Casella> possibili) { 	
 		
 		if (direzione == NORD) { 
-			System.out.println("nord");			
+//			System.out.println("nord");			
 			Casella aNord = casellaAdiacente(c, NORD);				
 			if(aNord != null) { // se esiste sulla scacchiera
 				int pezzo = contenuto(aNord.riga, aNord.colonna); // prendi il contenuto		
@@ -434,7 +434,7 @@ public class Gioco extends Scacchiera {
 		
 		if (direzione == EST) { 
 		
-			System.out.println("est");			
+//			System.out.println("est");			
 			Casella aEst = casellaAdiacente(c, EST);
 			if(aEst != null) {
 				int pezzo = contenuto(aEst.riga, aEst.colonna);
@@ -447,7 +447,7 @@ public class Gioco extends Scacchiera {
 		
 		if (direzione == OVEST) { 
 			
-			System.out.println("ovest");			
+//			System.out.println("ovest");			
 			Casella aOvest = casellaAdiacente(c, OVEST);
 			if(aOvest != null) {
 				int pezzo = contenuto(aOvest.riga, aOvest.colonna);
@@ -460,7 +460,7 @@ public class Gioco extends Scacchiera {
 		
 		if (direzione == SUD) { 
 			
-			System.out.println("ovest");			
+//			System.out.println("sud");			
 			Casella aSud = casellaAdiacente(c, SUD);
 			if(aSud != null) {
 				int pezzo = contenuto(aSud.riga, aSud.colonna);
@@ -603,12 +603,105 @@ public class Gioco extends Scacchiera {
 	}
 	
 	public void esegui(Casella partenza, Casella destinazione) {
+		
 		int pezzo = contenuto(partenza.riga, partenza.colonna);
 		metti(partenza, VUOTA);
-		System.out.println("Contenuto partenza:" + pezzo);
+//		System.out.println("Contenuto partenza:" + pezzo);
 		metti(destinazione, pezzo);	
 		pezzo = contenuto(destinazione.riga, destinazione.colonna);
-		System.out.println("Contenuto destinazione: " + pezzo);
+//		System.out.println("Contenuto destinazione: " + pezzo);
+		
+		
+		
+		if(giocatoreBianco.turno){
+			// custodia
+			for(int dir=1; dir<=4; dir++) 
+				if(casellaAdiacente(destinazione, dir) != null) { // c'è una casella vicina in direzione dir
+					Casella c= casellaAdiacente(destinazione, dir);					
+					int nemico=contenuto(c.riga,c.colonna);	 // mi prendo il contenuto						
+					if(GiocatoreNERO==colore(nemico)) {  // controllo che sia un nemico						
+						if(casellaAdiacente(c, dir)!=null) { // controllo se nella stessa direzione del nemico c'è un mio alleato
+							Casella c2= casellaAdiacente(c, dir);
+							int alleato= contenuto(c2);
+							if(GiocatoreBIANCO==colore(alleato)) {							
+								metti(c, VUOTA); // mangia 					
+								giocatoreNero.setPunteggio(1); // scala punteggio avversario
+							}	
+						}							
+					}					
+				}
+			//cattura
+			if(casellaAdiacente(destinazione, EST)!=null && casellaAdiacente(destinazione, OVEST)!=null) {
+				Casella e= casellaAdiacente(destinazione, EST);					
+				int est=contenuto(e.riga, e.colonna);
+				Casella o= casellaAdiacente(destinazione, OVEST);					
+				int ovest=contenuto(o.riga, o.colonna);
+				if(GiocatoreNERO==colore(est) && GiocatoreNERO==colore(ovest)) {
+					metti(e, VUOTA);
+					metti(o,VUOTA);
+					giocatoreNero.setPunteggio(2);								
+				}								
+			}
+			if(casellaAdiacente(destinazione, NORD)!=null && casellaAdiacente(destinazione, SUD)!=null) {
+				Casella n= casellaAdiacente(destinazione, NORD);					
+				int nord=contenuto(n.riga, n.colonna);
+				Casella s= casellaAdiacente(destinazione, SUD);					
+				int sud=contenuto(s.riga, s.colonna);
+				if(GiocatoreNERO==colore(nord) && GiocatoreNERO==colore(sud)) {
+					metti(n, VUOTA);
+					metti(s,VUOTA);
+					giocatoreNero.setPunteggio(2);								
+				}								
+			}						
+		}
+		
+		
+		if(giocatoreNero.turno){
+			//custodia
+			for(int dir=1; dir<=4; dir++) 
+				if(casellaAdiacente(destinazione, dir) != null) { // c'è una casella vicina in direzione dir
+					Casella c= casellaAdiacente(destinazione, dir);					
+					int nemico=contenuto(c.riga,c.colonna);	 // mi prendo il contenuto						
+					if(GiocatoreBIANCO==colore(nemico)) {  // controllo che sia un nemico						
+						if(casellaAdiacente(c, dir)!=null) { // controllo se nella stessa direzione del nemico c'è un mio alleato
+							Casella c2= casellaAdiacente(c, dir);
+							int alleato= contenuto(c2);
+							if(GiocatoreNERO==colore(alleato)) {							
+								metti(c, VUOTA); // mangia 					
+								giocatoreBianco.setPunteggio(1); // scala punteggio avversario
+							}	
+						}							
+					}					
+				}
+			//cattura
+			if(casellaAdiacente(destinazione, EST)!=null && casellaAdiacente(destinazione, OVEST)!=null) {
+				Casella e= casellaAdiacente(destinazione, EST);					
+				int est=contenuto(e.riga, e.colonna);
+				Casella o= casellaAdiacente(destinazione, OVEST);					
+				int ovest=contenuto(o.riga, o.colonna);
+				if(GiocatoreBIANCO==colore(est) && GiocatoreBIANCO==colore(ovest)) {
+					metti(e, VUOTA);
+					metti(o,VUOTA);
+					giocatoreBianco.setPunteggio(2);								
+				}								
+			}
+			if(casellaAdiacente(destinazione, NORD)!=null && casellaAdiacente(destinazione, SUD)!=null) {
+				Casella n= casellaAdiacente(destinazione, NORD);					
+				int nord=contenuto(n.riga, n.colonna);
+				Casella s= casellaAdiacente(destinazione, SUD);					
+				int sud=contenuto(s.riga, s.colonna);
+				if(GiocatoreBIANCO==colore(nord) && GiocatoreBIANCO==colore(sud)) {
+					metti(n, VUOTA);
+					metti(s,VUOTA);
+					giocatoreBianco.setPunteggio(2);								
+				}								
+			}	
+		}				
+		
+		System.out.println("punteggio giocatoreBianco: "+giocatoreBianco.getPunteggio());
+		System.out.println("punteggio giocatoreNero: "+giocatoreNero.getPunteggio());	
+		
+		
 		if(giocatoreBianco.turno) {
 			giocatoreBianco.setTurno(false);
 			giocatoreNero.setTurno(true);

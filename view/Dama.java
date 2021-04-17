@@ -67,9 +67,9 @@ public class Dama extends JFrame {
 					trovata=false;
 					//lista delle mosse della casella (xiniziale yinizliale)
 					ArrayList<controller.Casella> mossePedina = gioco.suggerisciMosse(new controller.Casella(xiniziale, yiniziale));
-					System.out.println("Mosse trovate:" + mossePedina.size());
+//					System.out.println("Mosse trovate:" + mossePedina.size());
 						for (int i = 0; i < mossePedina.size(); i++) {
-							System.out.println("Possibile mossa numero " + i + ": " + mossePedina.get(i).riga + ", " + mossePedina.get(i).colonna);
+//							System.out.println("Possibile mossa numero " + i + ": " + mossePedina.get(i).riga + ", " + mossePedina.get(i).colonna);
 							// Se stiamo iterando su una delle caselle appartenenti alle possibili mosse, la booleana diventra true così che a rigo 83 la casella 
 							//venga colorata di rosso
 								if (mossePedina.get(i).riga == y && mossePedina.get(i).colonna == x) 

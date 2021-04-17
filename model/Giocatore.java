@@ -34,6 +34,7 @@ public class Giocatore {
 	
 	public void setPunteggio(int pedineMangiate) {
 		this.pedine -= pedineMangiate;
+		System.out.println("-1 giocatoreNero");
 	}
 	
 	public boolean isTurno() {
