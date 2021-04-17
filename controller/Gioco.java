@@ -384,6 +384,10 @@ public class Gioco extends Scacchiera {
 	// Ritorna la casella adiacente a quella data, secondo la direzione
 	 
 	public Casella casellaAdiacente(Casella c, int direz) {
+		
+		if ((c.riga-1 < 0 || c.riga+1 >7 || c.colonna-1 < 0 || c.colonna+1 >7))
+			return null;
+		
 		Casella c2 = null;
 		switch (direz) {
 		case NORD:
@@ -399,9 +403,7 @@ public class Gioco extends Scacchiera {
 			c2 = new Casella(c.riga + 1, c.colonna);
 			break;
 		}
-		if ((c2 != null) && (c.riga < 0 || c.riga > 7 || c.colonna < 0 || c.colonna > 7))
-			c2 = null;
-		System.out.println("Casella a " + direz + " con coordinate r: " + c.riga + ", " + c.colonna);
+		System.out.println("coordinate r: " + c.riga + ", " + c.colonna);
 		return c2;
 	}
 
@@ -414,64 +416,57 @@ public class Gioco extends Scacchiera {
 	protected void suggerisciMosseRick(Casella c, int direzione, ArrayList<Casella> possibili) { 	
 		
 		if (direzione == NORD) { 
-			System.out.println("Cerco a nord");
-			if(c.riga > 0) { //Non sono sicura, potrebbe essere un errore ma non possiamo testarlo al momento
-				Casella aNord = casellaAdiacente(c, NORD);
-				int pezzo = contenuto(aNord.riga, aNord.colonna);
-				if(!ePedina(pezzo))
+			System.out.println("nord");			
+			Casella aNord = casellaAdiacente(c, NORD);				
+			if(aNord != null) { // se esiste sulla scacchiera
+				int pezzo = contenuto(aNord.riga, aNord.colonna); // prendi il contenuto		
+				if(!ePedina(pezzo)) { // se vuota
 					possibili.add(aNord);
-				if(aNord != null && !ePedina(pezzo)) {
-					//possibili.add(aNord);
 					suggerisciMosseRick(aNord, NORD, possibili);
 				}
-			}
-			System.out.println("Finito di cercare a nord");
-		}	
-		if (direzione == SUD) { 
-			System.out.println("Cerco a sud");
-			if(c.riga < 7) {
-				Casella aSud = casellaAdiacente(c, SUD);
-				int pezzo = contenuto(aSud.riga, aSud.colonna);
-				if(!ePedina(pezzo))
-					possibili.add(aSud);
-				if(aSud != null && !ePedina(pezzo)) {
-					//possibili.add(aSud);
-					suggerisciMosseRick(aSud, SUD, possibili);
-				}
-			}
-			System.out.println("Finito di cercare a sud");
+			}	
 		}
-		if (direzione == EST) {
-			System.out.println("Cerco a est");
-			if(c.colonna < 7) {
-				Casella aEst = casellaAdiacente(c, EST);
+		
+		if (direzione == EST) { 
+		
+			System.out.println("est");			
+			Casella aEst = casellaAdiacente(c, EST);
+			if(aEst != null) {
 				int pezzo = contenuto(aEst.riga, aEst.colonna);
-				if(!ePedina(pezzo))
+				if(!ePedina(pezzo)) {
 					possibili.add(aEst);
-				if(aEst != null && !ePedina(pezzo) && aEst.colonna < 7) {
-					//possibili.add(aEst);
 					suggerisciMosseRick(aEst, EST, possibili);
-				}
-				System.out.println("Finito di cercare a Est");
-			}
+				}	
+			}										
 		}
+		
 		if (direzione == OVEST) { 
-			System.out.println("Cerco a ovest");
-				if(c.colonna > 0) {
-				Casella aOvest = casellaAdiacente(c, OVEST);
+			
+			System.out.println("ovest");			
+			Casella aOvest = casellaAdiacente(c, OVEST);
+			if(aOvest != null) {
 				int pezzo = contenuto(aOvest.riga, aOvest.colonna);
-				if(!ePedina(pezzo))
+				if(!ePedina(pezzo)) {
 					possibili.add(aOvest);
-				if(aOvest != null && !ePedina(pezzo) && aOvest.colonna > 0) {
-					//possibili.add(aOvest);
-					suggerisciMosseRick(aOvest,OVEST, possibili);
-				}
-			}
-			System.out.println("Finito di cercare a ovest");
+					suggerisciMosseRick(aOvest, OVEST, possibili);
+				}	
+			}										
 		}
-
-	}
+		
+		if (direzione == SUD) { 
+			
+			System.out.println("ovest");			
+			Casella aSud = casellaAdiacente(c, SUD);
+			if(aSud != null) {
+				int pezzo = contenuto(aSud.riga, aSud.colonna);
+				if(!ePedina(pezzo)) {
+					possibili.add(aSud);
+					suggerisciMosseRick(aSud, SUD, possibili);
+				}	
+			}										
+		}
 	
+	}
 	
 	//Metodo che esegue la mossa del Computer, cercando la mossa migliore che sia a suo favore.
 	public void mossaComputer() {
