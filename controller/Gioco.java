@@ -385,21 +385,26 @@ public class Gioco extends Scacchiera {
 	 
 	public Casella casellaAdiacente(Casella c, int direz) {
 		
-		if ((c.riga-1 < 0 || c.riga+1 >7 || c.colonna-1 < 0 || c.colonna+1 >7))
-			return null;
-		
 		Casella c2 = null;
 		switch (direz) {
 		case NORD:
+			if(c.riga - 1 < 0)
+				return null;
 			c2 = new Casella(c.riga - 1, c.colonna );
 			break;
 		case EST:
+			if(c.colonna + 1 > 7)
+				return null;
 			c2 = new Casella(c.riga, c.colonna + 1);
 			break;
 		case OVEST:
+			if(c.colonna - 1 < 0)
+				return null;
 			c2 = new Casella(c.riga, c.colonna - 1);
 			break;
 		case SUD:
+			if(c.riga + 1 > 7)
+				return null;
 			c2 = new Casella(c.riga + 1, c.colonna);
 			break;
 		}
