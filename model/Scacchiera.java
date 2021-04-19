@@ -1,6 +1,7 @@
 //Dipendenze classi
 package model;
-import controller.Casella;
+
+import view.Casella;
 
 public class Scacchiera
 { 

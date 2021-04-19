@@ -1,6 +1,8 @@
 package controller;
 import java.util.*;
 
+import view.Casella;
+
 // la classe mossa è fatta da due liste una di pedine mangiate e l'altra di pedine toccate e 
 // un booleano che è utilizzato in valuta mossa per dire se le pedine di mossa diventano Dame
 public class Mossa

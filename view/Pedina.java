@@ -3,14 +3,9 @@ package view;
 import java.awt.Color;
 import java.awt.Image;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
-
-import model.Scacchiera;
-
-
 
 public class Pedina extends Casella {
 

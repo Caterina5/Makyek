@@ -1,9 +1,7 @@
 package controller;
 
 import java.util.*;
-
-import model.Scacchiera;
-
+import view.Casella;
 
 public class ValutaMosse
 {

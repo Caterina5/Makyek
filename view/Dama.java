@@ -18,9 +18,8 @@ import javax.swing.JOptionPane;
 import javax.swing.border.LineBorder;
 
 import model.Scacchiera;
-import view.Casella;
 import controller.Gioco;
-import controller.Mossa;
+
 
 public class Dama extends JFrame {
 	
@@ -66,7 +65,7 @@ public class Dama extends JFrame {
 				if (xiniziale != -1) {
 					trovata=false;
 					//lista delle mosse della casella (xiniziale yinizliale)
-					ArrayList<controller.Casella> mossePedina = gioco.suggerisciMosse(new controller.Casella(xiniziale, yiniziale));
+					ArrayList<Casella> mossePedina = gioco.suggerisciMosse(new Casella(xiniziale, yiniziale));
 //					System.out.println("Mosse trovate:" + mossePedina.size());
 						for (int i = 0; i < mossePedina.size(); i++) {
 //							System.out.println("Possibile mossa numero " + i + ": " + mossePedina.get(i).riga + ", " + mossePedina.get(i).colonna);

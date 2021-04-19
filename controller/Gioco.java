@@ -5,6 +5,7 @@ import java.util.*;
 import model.Giocatore;
 import model.Giocatore.Colore;
 import model.Scacchiera;
+import view.Casella;
 
 public class Gioco extends Scacchiera {
 		
@@ -474,9 +475,9 @@ public class Gioco extends Scacchiera {
 	}
 	
 	//Metodo che esegue la mossa del Computer, cercando la mossa migliore che sia a suo favore.
-	public void mossaComputer() {
+//	public void mossaComputer() {
 //		System.out.println("Rimango bloccato nella mossa del pc");
-		Gioco gioco = this;
+//		Gioco gioco = this;
 //		int r1, c1, max = 0;
 //		Mossa mossamax = null;
 //
@@ -570,7 +571,7 @@ public class Gioco extends Scacchiera {
 //		//Nessuna mangiata obbligatoria
 //		return false;
 
-	}
+//	}
 
 	// Prova la mossa del giocatore, ovvero verifica se è valida e in tal caso
 	// la esegue.
