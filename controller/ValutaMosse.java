@@ -1,10 +1,12 @@
 package controller;
 
-import java.util.*;
+import java.util.LinkedList;
+import java.util.ListIterator;
+import java.util.Random;
+
 import view.Casella;
 
-public class ValutaMosse
-{
+public class ValutaMosse {
   // istanze dell'oggetto
   
   public Gioco gioco;
@@ -29,8 +31,7 @@ public class ValutaMosse
     
   //costruttore 
   
-  public ValutaMosse(Gioco g) 
-  {
+  public ValutaMosse(Gioco g) {
     gioco = g;
     //inizializzo il valore a random
     generatoreCasuale = new Random();
