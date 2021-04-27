@@ -1,0 +1,14 @@
+%size(0..7).
+
+% Guess
+%move(P, I, J) | notMove(P, I, J) :- canMove(P, I, J).
+
+
+
+%free(X,Y):- cell(X,Y,C), C = 0.
+
+%posso andare a destra
+%canMove(X,Y):-free(X,Y), cell(X,Z,2), Y=Z+1, Y<=7.
+%canMove(X,Y):-free(X,Y), cell(X,Z,2), Y=Z-1, Y>=0.
+%canMove(X,Y):-free(X,Y), cell(Z,Y,2), X=Z+1, Y<=7.
+%canMove(X,Y):-free(X,Y), cell(Z,Y,2), X=Z-1, Y>=0.

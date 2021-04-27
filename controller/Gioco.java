@@ -1,7 +1,8 @@
 package controller;
 
-import java.util.*;
+import java.util.ArrayList;
 
+import model.Cell;
 import model.Giocatore;
 import model.Giocatore.Colore;
 import model.Scacchiera;
@@ -23,6 +24,8 @@ public class Gioco extends Scacchiera {
 	
 	public Giocatore giocatoreBianco = new Giocatore(Colore.BIANCO);
 	public Giocatore giocatoreNero = new Giocatore(Colore.NERO);
+	
+	public ValutaMosse valutaMosse;
 
 //	//turno
 //	public int aChiTocca = GiocatoreBIANCO;
@@ -475,119 +478,54 @@ public class Gioco extends Scacchiera {
 	}
 	
 	//Metodo che esegue la mossa del Computer, cercando la mossa migliore che sia a suo favore.
-//	public void mossaComputer() {
-//		System.out.println("Rimango bloccato nella mossa del pc");
-//		Gioco gioco = this;
-//		int r1, c1, max = 0;
-//		Mossa mossamax = null;
-//
-//		for (r1 = 0; r1 < Scacchiera.DIM_LATO; r1++) {
-//			for (c1 = 0; c1 < Scacchiera.DIM_LATO; c1++) {
-//
-//				//Controllo se il computer deve mangiare
-//				if (colore(contenuto(r1, c1)) == GiocatoreNERO) {
-//					// System.out.println(r1+" "+c1);
-//					ArrayList<Mossa> prova = gioco.suggerisciMosse(new Casella(r1, c1));
-//
-//					for (int i = 0; i < prova.size(); i++) {
-//						Mossa provamossa = (Mossa) prova.get(i);
-//						if (provamossa.caselleMangiate.size() > max) {
-//							max = provamossa.caselleMangiate.size();
-//							mossamax = provamossa;
-//						}
-//
-//					}
-//
-//				}
-//
-//			}
-//		}
-//
-//	//Non deve mangiare, allora valuto la mossa migliore che mi restituisce l'intelligenza artificiale
-//		if (max == 0) {
-//			ValutaMosse prova = new ValutaMosse(this);
-//			Mossa pop = prova.mossaMigliore();
-//			//E la eseguo
-//			this.esegui(pop);
-//		} else
-//		//Posso mangiare e quindi sono vincolato a mangiare la pedina nemica. Eseguo quindi la mangiata.
-//			gioco.esegui(mossamax);
-//	}
-//
-//	
-//	//Controlla la mangiata obbligatoria
-//	public boolean mangiataObbligatoria(int x1, int y1, int x2, int y2) {
-//		int r1, c1, max = 0;
-//		
-//		//primo ciclo per trovare la casella che mangia più pedine
-//		for (r1 = 0; r1 < Scacchiera.DIM_LATO; r1++) {
-//			for (c1 = 0; c1 < Scacchiera.DIM_LATO; c1++) {
-//
-//				if (colore(contenuto(r1, c1)) == GiocatoreBIANCO) {
-//					// System.out.println(r1+" "+c1);
-//					ArrayList<Mossa> prova = this.suggerisciMosse(new Casella(r1, c1));
-//
-//					for (int i = 0; i < prova.size(); i++) {
-//						Mossa provamossa = (Mossa) prova.get(i);
-//						if (provamossa.caselleMangiate.size() > max) {
-//							max = provamossa.caselleMangiate.size();
-//						}
-//
-//					}
-//
-//				}
-//
-//			}
-//		}
-//		//controllo che la casella cliccata corrisponda all'ultima casella toccata
-//		for (r1 = 0; r1 < Scacchiera.DIM_LATO; r1++) {
-//			for (c1 = 0; c1 < Scacchiera.DIM_LATO; c1++) {
-//
-//				if (colore(contenuto(r1, c1)) == GiocatoreBIANCO) {
-//					// System.out.println(r1+" "+c1);
-//					ArrayList<Mossa> prova = this.suggerisciMosse(new Casella(r1, c1));
-//
-//					for (int i = 0; i < prova.size(); i++) {
-//						Mossa provamossa = (Mossa) prova.get(i);
-//						if (provamossa.caselleMangiate.size() == max) {
-//							
-//								Casella casellafinale = (Casella) provamossa.caselleToccate.getLast();
-//								Casella casellainiziale = (Casella) provamossa.caselleToccate.getFirst();
-//								if (casellafinale.riga == x2
-//										&& casellafinale.colonna == y2
-//										&& casellainiziale.riga == x1
-//										&& casellainiziale.colonna == y1) {
-//									return true;
-//								}
-//							}
-//						}
-//
-//					}
-//
-//				}
-//
-//			}
-//		
-//		//Nessuna mangiata obbligatoria
-//		return false;
+	public void mossaComputer() {
+		valutaMosse = new ValutaMosse();
+		ArrayList<Cell> bianche = new ArrayList<Cell>();
+		ArrayList<Cell> nere = new ArrayList<Cell>();
+		ArrayList<Cell> vuote = new ArrayList<Cell>();
+		
+		for (int i = 0; i < Scacchiera.DIM_LATO; i++) {
+			for (int j = 0; j < Scacchiera.DIM_LATO; j++) {
 
-//	}
+				if (colore(contenuto(i, j)) == GiocatoreNERO) 
+					nere.add(new Cell(i,j,2));
+				else if (colore(contenuto(i, j)) == GiocatoreBIANCO) 
+					bianche.add(new Cell(i,j,1));
+				else 
+					vuote.add(new Cell(i,j,0));
+			}
+		}
+			
+		valutaMosse.makeAnswerSet(nere, bianche, vuote);
 
+//		//Non deve mangiare, allora valuto la mossa migliore che mi restituisce l'intelligenza artificiale
+//			if (max == 0) {
+//				ValutaMosse prova = new ValutaMosse(this);
+//				Mossa pop = prova.mossaMigliore();
+//				//E la eseguo
+//				this.esegui(pop);
+//			} else
+//			//Posso mangiare e quindi sono vincolato a mangiare la pedina nemica. Eseguo quindi la mangiata.
+//				//gioco.esegui(mossamax);
+//		}
+
+	}
+	
 	// Prova la mossa del giocatore, ovvero verifica se è valida e in tal caso
 	// la esegue.
 	public String provaMossaGiocatore(int x1, int y1, int x2, int y2) {
-		
+
 		boolean trovata = false;
-//		//Suggerisce tutte le mosse della pedina inizialmente selezionata
+		// //Suggerisce tutte le mosse della pedina inizialmente selezionata
 		ArrayList<Casella> mossePedina = suggerisciMosse(new Casella(x1, y1));
 		//Controllo se la mossa è fattibile
 		for (int i = 0; i < mossePedina.size(); i++) {
-			//Corrispondenza trovata tra la mossa che voglrrei fare e quelle suggerite (possibili)
+		//Corrispondenza trovata tra la mossa che voglrrei fare e quelle suggerite (possibili)
 			if (mossePedina.get(i).riga == x2 && mossePedina.get(i).colonna == y2) {
 				trovata = true;
 				esegui(new Casella(x1,y1), new Casella(x2,y2));
 				if(puoAncoraGiocare(giocatoreNero)) {
-					//mossaComputer();
+					mossaComputer();
 					if(!puoAncoraGiocare(giocatoreBianco))
 						return endGame();
 				}else {
@@ -595,13 +533,14 @@ public class Gioco extends Scacchiera {
 				}
 			}
 		}
-		
-		//Mossa non valida
-		if(!trovata)
-			return "La mossa non è valida, riprova";
-		
-		return msg = null;
+
+	//Mossa non valida
+	if(!trovata)
+	return "La mossa non è valida, riprova";
+
+	return msg = null;
 	}
+
 	
 	public void esegui(Casella partenza, Casella destinazione) {
 		
