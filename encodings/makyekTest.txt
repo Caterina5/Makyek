@@ -3,12 +3,61 @@
 % Guess
 %move(P, I, J) | notMove(P, I, J) :- canMove(P, I, J).
 
+free(X,Y):- cell(X,Y,C), C = 0.
+
+%calcolo indice
+cellaI(X,Y,I) :- cella(X,Y), I=X*10+Y.
+
+canMove(X,Y,I):-canMoveO(X,Y,I).
+canMove(X,Y,I):-canMoveS(X,Y,I).
+canMove(X,Y,I):-canMoveN(X,Y,I).
+canMove(X,Y,I):-canMoveE(X,Y,I).
 
 
-%free(X,Y):- cell(X,Y,C), C = 0.
+%ovest
+canMoveO(X,Z,I):- free(X,Z), cellaI(X,Y,I), Z=Y-1.
+canMoveO(X,Z,I):- free(X,Z), canMoveO(X,Y,I), Z=Y-1, Z>=0.
+PassiO(N,I):- #count{I,Y:canMoveO(_,Y,I)}=N,canMoveO(_,_,I).
 
-%posso andare a destra
-%canMove(X,Y):-free(X,Y), cell(X,Z,2), Y=Z+1, Y<=7.
-%canMove(X,Y):-free(X,Y), cell(X,Z,2), Y=Z-1, Y>=0.
-%canMove(X,Y):-free(X,Y), cell(Z,Y,2), X=Z+1, Y<=7.
-%canMove(X,Y):-free(X,Y), cell(Z,Y,2), X=Z-1, Y>=0.
+%est
+canMoveE(X,Z,I):- free(X,Z), cellaI(X,Y,I), Z=Y+1.
+canMoveE(X,Z,I):- free(X,Z), canMoveE(X,Y,I), Z=Y+1, Z<=7.
+PassiE(N,I):- #count{I,Y:canMoveE(_,Y,I)}=N,canMoveE(_,_,I).
+
+%nord
+canMoveN(Z,Y,I):- free(Z,Y), cellaI(X,Y,I), Z=X-1.
+canMoveN(Z,Y,I):- free(Z,Y), canMoveN(X,Y,I), Z=X-1, Z>=0.
+PassiN(N,I):- #count{I,Z:canMoveN(Z,_,I)}=N,canMoveN(_,_,I).
+
+%sud
+canMoveS(Z,Y,I):- free(Z,Y), cellaI(X,Y,I), Z=X+1.
+canMoveS(Z,Y,I):- free(Z,Y), canMoveS(X,Y,I), Z=X+1, Z<=7.
+PassiS(N,I):- #count{I,Z:canMoveS(Z,_,I)}=N,canMoveS(_,_,I).
+
+
+%     ------- test ------
+
+%cella(1,2).
+%cella(2,3).
+
+%ovest
+%free(1,1).
+%free(1,0).
+%free(2,0).
+%free(2,1).
+%free(2,2).
+
+%est
+%free(2,4).
+%free(2,5).
+%free(1,3).
+
+%nord
+%free(1,3).
+%free(0,3).
+%free(0,2).
+
+%sud
+%free(2,2).
+%free(3,2).
+%free(3,3).
