@@ -82,6 +82,7 @@ public class ValutaMosse {
 		//ArrayList per salvare
 		ArrayList<Cell> answersCell = new ArrayList<Cell>();
 		ArrayList<Move> answersMove = new ArrayList<Move>();	
+
 		
 		//Analizziamo l'answer set che in quest caso è unico e che rappresenta la soluzione
 		//del Sudoku e aggiorniamo la matrice
@@ -104,7 +105,6 @@ public class ValutaMosse {
 						Move move = (Move) obj;			
 						answersMove.add(move);						
 					}
-					
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -112,9 +112,11 @@ public class ValutaMosse {
 			
 		}
 		
+
 		for(int i = 0; i<answersCell.size(); i++) {
 			System.out.println("cell(" + answersCell.get(i).row + "," + answersCell.get(i).column + "," + answersCell.get(i).colore+").");
 		}
+	
 		System.out.println("size Move: "+answersMove.size());
 		for(int i = 0; i<answersMove.size(); i++) {
 			System.out.println("move(" + answersMove.get(i).id + "," + answersMove.get(i).row + "," + answersMove.get(i).col+").");
