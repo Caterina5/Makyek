@@ -14,35 +14,36 @@ import it.unical.mat.embasp.languages.asp.AnswerSets;
 import it.unical.mat.embasp.platforms.desktop.DesktopHandler;
 import it.unical.mat.embasp.specializations.dlv2.desktop.DLV2DesktopService;
 import model.Cell;
+import model.Move;
+
 
 
 public class ValutaMosse {
 	
-	private static String encodingResource="encodings/makyekTest.txt";
+	private static String encodingResource="encodings/makyek";
 	private static Handler handler;
-	//private static ValutaMosse instance = null;
-	
-//	private ValutaMosse() {
-//		instance = new ValutaMosse();
-//		handler = new DesktopHandler(new DLV2DesktopService("lib/dlv2.exe"));
-//		try {
-//			ASPMapper.getInstance().registerClass(Cell.class);
-//		} catch (ObjectNotValidException | IllegalAnnotationException e1) {
-//			e1.printStackTrace();
-//		}
-//	}
+
+//	private static ValutaMosse instance = null;
+//	
 //	
 //	public ValutaMosse getInstance() {
-//		if(instance == null)
-//			return instance = new ValutaMosse();
+//		if(instance == null) 
+//			instance = new ValutaMosse();
 //		return instance;
 //	}
+//	
+//	private ValutaMosse() {}
 	
 		
-	public void makeAnswerSet(ArrayList<Cell> nere, ArrayList<Cell> bianche, ArrayList<Cell> vuote) {
-		handler = new DesktopHandler(new DLV2DesktopService("lib/dlv2.exe"));
+	public void makeAnswerSet(ArrayList<Cell> nere, ArrayList<Cell> bianche, ArrayList<Cell> vuote) {					
+	
+		handler = new DesktopHandler(new DLV2DesktopService("lib/dlv2.exe"));	
+		
 		try {
-			ASPMapper.getInstance().registerClass(Cell.class);
+			// registrazione delle classi per gli input/output dei fatti
+			ASPMapper.getInstance().registerClass(Move.class);
+			ASPMapper.getInstance().registerClass(Cell.class);		
+				
 		} catch (ObjectNotValidException | IllegalAnnotationException e1) {
 			e1.printStackTrace();
 		}
@@ -51,21 +52,21 @@ public class ValutaMosse {
 		
 			try {
 				for(int i=0;i<nere.size();i++){
-					facts.addObjectInput(new Cell(nere.get(i).row, nere.get(i).column, 2));
-					//facts.addObjectInput(new Cell(nere.get(i).riga, nere.get(i).colonna, "nera"));
+					facts.addObjectInput(new Cell(nere.get(i).row, nere.get(i).column, 2));					
 				}
 				for(int i=0;i<bianche.size();i++){
 					facts.addObjectInput(new Cell(bianche.get(i).row, bianche.get(i).column, 1));	
 				}
 				for(int i=0;i<vuote.size();i++){
 					facts.addObjectInput(new Cell(vuote.get(i).row, vuote.get(i).column, 0));	
-				}	
+				}					
+				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}			
+				
 		
-		
-		//Aggiungiamo all'handler i fatti 
+//		//Aggiungiamo all'handler i fatti 
 		handler.addProgram(facts);
 		
 		//Specifichiamo il programma logico tramite file
@@ -76,24 +77,34 @@ public class ValutaMosse {
 		handler.addProgram(encoding);
 		
 		//L'handler invoca DLV2 in modo SINCRONO dando come input il programma logico e i fatti
-		Output o =  handler.startSync();
+		Output o =  handler.startSync();	
 		
 		//ArrayList per salvare
-		ArrayList<Cell> answers = new ArrayList<Cell>();
+		ArrayList<Cell> answersCell = new ArrayList<Cell>();
+		ArrayList<Move> answersMove = new ArrayList<Move>();	
 		
 		//Analizziamo l'answer set che in quest caso è unico e che rappresenta la soluzione
 		//del Sudoku e aggiorniamo la matrice
 		AnswerSets answersets = (AnswerSets) o;
-		
+
 		for(AnswerSet a:answersets.getAnswersets()){
 			try {
 				for(Object obj:a.getAtoms()){
-					//Scartiamo tutto ciò che non è un oggetto della classe Cell
-					if(!(obj instanceof Cell)) continue;
-					//Convertiamo in un oggetto della classe Cell e impostiamo il valore di ogni cella 
-					//nella matrice rappresentante la griglia del Sudoku
-					Cell cell = (Cell) obj;	
-					answers.add(cell);
+										
+					if(!(obj instanceof Cell)) 
+						continue;
+					else {
+						Cell cell = (Cell) obj;							
+						answersCell.add(cell);
+					}
+					
+					if(!(obj instanceof Move)) 
+						continue;
+					else {						
+						Move move = (Move) obj;			
+						answersMove.add(move);						
+					}
+					
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -101,10 +112,14 @@ public class ValutaMosse {
 			
 		}
 		
-		for(int i = 0; i<answers.size(); i++) {
-			System.out.println("cell(" + answers.get(i).row + "," + answers.get(i).column + "," + answers.get(i).colore+").");
+		for(int i = 0; i<answersCell.size(); i++) {
+			System.out.println("cell(" + answersCell.get(i).row + "," + answersCell.get(i).column + "," + answersCell.get(i).colore+").");
 		}
-	
+		System.out.println("size Move: "+answersMove.size());
+		for(int i = 0; i<answersMove.size(); i++) {
+			System.out.println("move(" + answersMove.get(i).id + "," + answersMove.get(i).row + "," + answersMove.get(i).col+").");
+		}
+		
 	}
   
 }

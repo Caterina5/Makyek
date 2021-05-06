@@ -478,8 +478,8 @@ public class Gioco extends Scacchiera {
 	}
 	
 	//Metodo che esegue la mossa del Computer, cercando la mossa migliore che sia a suo favore.
-	public void mossaComputer() {
-		valutaMosse = new ValutaMosse();
+	public void mossaComputer() {			
+			
 		ArrayList<Cell> bianche = new ArrayList<Cell>();
 		ArrayList<Cell> nere = new ArrayList<Cell>();
 		ArrayList<Cell> vuote = new ArrayList<Cell>();
@@ -495,8 +495,9 @@ public class Gioco extends Scacchiera {
 					vuote.add(new Cell(i,j,0));
 			}
 		}
-			
+		valutaMosse=new ValutaMosse();
 		valutaMosse.makeAnswerSet(nere, bianche, vuote);
+		
 
 //		//Non deve mangiare, allora valuto la mossa migliore che mi restituisce l'intelligenza artificiale
 //			if (max == 0) {

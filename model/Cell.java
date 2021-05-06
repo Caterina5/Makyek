@@ -6,7 +6,6 @@ import it.unical.mat.embasp.languages.Param;
 @Id("cell")
 public class Cell {
 
-
 	@Param(0)
 	public int row;
 	@Param(1)
@@ -14,9 +13,9 @@ public class Cell {
 	@Param(2)
 	public int colore;
 	
-	public Cell(int r,int c,int col){
-		this.row=r;
-		this.column=c;
+	public Cell(int row, int column, int col){
+		this.row=row;
+		this.column=column;
 		this.colore= col;
 	}
 	
