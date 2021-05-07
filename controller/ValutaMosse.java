@@ -88,20 +88,15 @@ public class ValutaMosse {
 		//del Sudoku e aggiorniamo la matrice
 		AnswerSets answersets = (AnswerSets) o;
 
-		for(AnswerSet a:answersets.getAnswersets()){
+		for(AnswerSet a:answersets.getOptimalAnswerSets()){
 			try {
 				for(Object obj:a.getAtoms()){
 										
-					if(!(obj instanceof Cell)) 
-						continue;
-					else {
+					if((obj instanceof Cell)) {
 						Cell cell = (Cell) obj;							
 						answersCell.add(cell);
-					}
-					
-					if(!(obj instanceof Move)) 
-						continue;
-					else {						
+					}					
+					else if(obj instanceof Move) {	
 						Move move = (Move) obj;			
 						answersMove.add(move);						
 					}
@@ -112,10 +107,9 @@ public class ValutaMosse {
 			
 		}
 		
-
-		for(int i = 0; i<answersCell.size(); i++) {
-			System.out.println("cell(" + answersCell.get(i).row + "," + answersCell.get(i).column + "," + answersCell.get(i).colore+").");
-		}
+//		for(int i = 0; i<answersCell.size(); i++) {
+//			System.out.println("cell(" + answersCell.get(i).row + "," + answersCell.get(i).column + "," + answersCell.get(i).colore+").");
+//		}
 	
 		System.out.println("size Move: "+answersMove.size());
 		for(int i = 0; i<answersMove.size(); i++) {
