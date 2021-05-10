@@ -49,8 +49,10 @@ public class ValutaMosse {
 		}
 		
 		InputProgram facts= new ASPInputProgram();
+		facts.clearAll();
 		
 			try {
+				System.out.println("inizio  a passare i fatti");
 				for(int i=0;i<nere.size();i++){
 					facts.addObjectInput(new Cell(nere.get(i).row, nere.get(i).column, 2));					
 				}
@@ -68,6 +70,13 @@ public class ValutaMosse {
 		
 //		//Aggiungiamo all'handler i fatti 
 		handler.addProgram(facts);
+		
+//		try {
+//			handler.wait(1000);
+//		} catch (InterruptedException e1) {
+//			// TODO Auto-generated catch block
+//			e1.printStackTrace();
+//		}
 		
 		//Specifichiamo il programma logico tramite file
 		InputProgram encoding= new ASPInputProgram();
@@ -104,12 +113,7 @@ public class ValutaMosse {
 			} catch (Exception e) {
 				e.printStackTrace();
 			} 
-			
 		}
-		
-//		for(int i = 0; i<answersCell.size(); i++) {
-//			System.out.println("cell(" + answersCell.get(i).row + "," + answersCell.get(i).column + "," + answersCell.get(i).colore+").");
-//		}
 	
 		System.out.println("size Move: "+answersMove.size());
 		for(int i = 0; i<answersMove.size(); i++) {

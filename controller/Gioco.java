@@ -41,30 +41,6 @@ public class Gioco extends Scacchiera {
 	 public Gioco() {
 		super();
 	 }
-
-//	// controlla la direzione
-//	public boolean eVersoAvanti(int direz, int colore) {
-//		switch (colore) {
-//		case Scacchiera.GiocatoreBIANCO:
-//			return (direz == NORD || direz == EST || direz == OVEST || direz == SUD);
-//		case Scacchiera.GiocatoreNERO:
-//			return (direz == NORD || direz == EST || direz == OVEST || direz == SUD);
-//		}
-//		return false;
-//	}
-
-//	//controlla la direzione date due caselle
-//	public boolean eVersoAvanti(Casella c1, Casella c2, int colore) {
-////		switch (colore) {
-////		case BIANCO:
-////			return (c2.riga < c1.riga);
-////		case NERO:
-////			return (c2.riga > c1.riga);
-////		}
-////		return false;
-//		return true;
-//	}
-
 	
 //	  Ritorna il colore opposto a quello dato: bianco per nero e nero per bianco
 	 
@@ -133,34 +109,8 @@ public class Gioco extends Scacchiera {
 
 
 	//  Ritorna se le due caselle sono direttamente adiacenti, cioe' si toccano
-	 
-//	public boolean adiacenteDiretta(Casella c1, Casella c2) {
-//		int distanzaRighe = c1.riga - c2.riga;
-//		if (distanzaRighe < 0)
-//			distanzaRighe = -distanzaRighe;
-//		int distanzaColonne = c1.colonna - c2.colonna;
-//		if (distanzaColonne < 0)
-//			distanzaColonne = -distanzaColonne;
-//		return ((distanzaRighe == 1) && (distanzaColonne == 1));
-//	}
+
 	
-//	// ritorna verso dove devo andare
-//	public int direzGiacenza(Casella c1, Casella c2) {
-//		int distanzaRighe = c1.riga - c2.riga;
-//		int distanzaColonne = c1.colonna - c2.colonna;
-//		if (distanzaRighe > 0) {
-//			if (distanzaColonne > 0)
-//				return SUD;
-//			else if (distanzaColonne < 0)
-//				return OVEST;
-//		} else if (distanzaRighe < 0) {
-//			if (distanzaColonne > 0)
-//				return EST;
-//			else if (distanzaColonne < 0)
-//				return NORD;
-//		}
-//		return FERMA;
-//	}
 
 	
 
@@ -525,12 +475,15 @@ public class Gioco extends Scacchiera {
 			if (mossePedina.get(i).riga == x2 && mossePedina.get(i).colonna == y2) {
 				trovata = true;
 				esegui(new Casella(x1,y1), new Casella(x2,y2));
-				if(puoAncoraGiocare(giocatoreNero)) {
-					mossaComputer();
+				if(giocatoreNero.isTurno()) {
+					if(puoAncoraGiocare(giocatoreNero))
+						mossaComputer();
+					else
+						return endGame();
+				}
+				else if(giocatoreBianco.isTurno() ){
 					if(!puoAncoraGiocare(giocatoreBianco))
 						return endGame();
-				}else {
-					return endGame();
 				}
 			}
 		}
