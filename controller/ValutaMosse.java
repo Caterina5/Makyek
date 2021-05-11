@@ -115,6 +115,7 @@ public class ValutaMosse {
 		for(int i = 0; i<answersMove.size(); i++) {			
 			System.out.println("move: "+"("+ answersMove.get(i).x + "," + answersMove.get(i).y + ") in (" + answersMove.get(i).row + "," + answersMove.get(i).col+").");
 		}
+		System.out.println("\n\n");
 		
 	}
   
