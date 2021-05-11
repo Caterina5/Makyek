@@ -16,23 +16,11 @@ import it.unical.mat.embasp.specializations.dlv2.desktop.DLV2DesktopService;
 import model.Cell;
 import model.Move;
 
-
-
 public class ValutaMosse {
 	
 	private static String encodingResource="encodings/makyek";
 	private static Handler handler;
 
-//	private static ValutaMosse instance = null;
-//	
-//	
-//	public ValutaMosse getInstance() {
-//		if(instance == null) 
-//			instance = new ValutaMosse();
-//		return instance;
-//	}
-//	
-//	private ValutaMosse() {}
 	
 	public ValutaMosse() {
 		
@@ -47,7 +35,6 @@ public class ValutaMosse {
 			e1.printStackTrace();
 		}
 		
-
 		//Specifichiamo il programma logico tramite file
 		InputProgram encoding= new ASPInputProgram();
 		encoding.addFilesPath(encodingResource);
@@ -83,8 +70,10 @@ public class ValutaMosse {
 //		//Aggiungiamo all'handler i fatti 
 		handler.addProgram(facts);
 		
-		facts.setSeparator("\n");
+		//stampa fatti
+		System.out.println("\n");
 		System.out.println(facts.getPrograms());
+		System.out.println("\n");
 		
 		//L'handler invoca DLV2 in modo SINCRONO dando come input il programma logico e i fatti
 		Output o =  handler.startSync();	
@@ -108,13 +97,9 @@ public class ValutaMosse {
 					}					
 					else if(obj instanceof Move) {	
 						Move move = (Move) obj;	
-						System.out.println("\n");
-						System.out.println("move(" + move.id + "," + move.row + "," + move.col+").");
+						move.getMove();
 						answersMove.add(move);						
 					}
-//					else {
-//						System.out.println(obj.toString());
-//					}
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -125,10 +110,10 @@ public class ValutaMosse {
 //		for(int i = 0; i<answersCell.size(); i++) {
 //			System.out.println("cell(" + answersCell.get(i).colore+ "," + answersCell.get(i).row + "," + answersCell.get(i).column+").");
 //		}
-	
+		System.out.println("\n\n");
 		System.out.println("size Move: "+answersMove.size());
-		for(int i = 0; i<answersMove.size(); i++) {
-			System.out.println("move(" + answersMove.get(i).id + "," + answersMove.get(i).row + "," + answersMove.get(i).col+").");
+		for(int i = 0; i<answersMove.size(); i++) {			
+			System.out.println("move: "+"("+ answersMove.get(i).x + "," + answersMove.get(i).y + ") in (" + answersMove.get(i).row + "," + answersMove.get(i).col+").");
 		}
 		
 	}

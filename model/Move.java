@@ -12,8 +12,8 @@ public class Move {
 	public int row;
 	@Param(2)
 	public int col;
-//	public int x;
-//	public int y;
+	public int x;
+	public int y;
 	
 	public Move(int id, int row, int col) {
 		this.id = id;
@@ -22,6 +22,7 @@ public class Move {
 	}
 	
 	public Move() {
+		
 	}
 	
 	public int getId() {
@@ -48,22 +49,28 @@ public class Move {
 		this.col = col;
 	}
 	
-//	public int getX() {
-//		return x;
-//	}
-//	
-//	public int getY() {
-//		return y;
-//	}
-
+	public int getX() {
+		return x;
+	}
 	
-//	if(id%10 < 0) {
-//	 x = 0;
-//	 y= id;
-//}
-//else {
-//	y = id%10;
-//	x = id/10;
-//}
+	public int getY() {
+		return y;
+	}
+	
+	public Move getMove() {
+
+		if(id/10 < 0) {
+			x = 0;
+			y= id;
+		}
+		else {
+			y = id%10;
+			x = id/10;
+		}
+		
+		return this;
+		
+	}
+
 	
 }
