@@ -34,11 +34,10 @@ public class ValutaMosse {
 //	
 //	private ValutaMosse() {}
 	
+	public ValutaMosse() {
 		
-	public void makeAnswerSet(ArrayList<Cell> nere, ArrayList<Cell> bianche, ArrayList<Cell> vuote) {					
-	
-		handler = new DesktopHandler(new DLV2DesktopService("lib/dlv2.exe"));	
-		
+	handler = new DesktopHandler(new DLV2DesktopService("lib/dlv2.exe"));	
+			
 		try {
 			// registrazione delle classi per gli input/output dei fatti
 			ASPMapper.getInstance().registerClass(Move.class);
@@ -48,8 +47,20 @@ public class ValutaMosse {
 			e1.printStackTrace();
 		}
 		
+
+		//Specifichiamo il programma logico tramite file
+		InputProgram encoding= new ASPInputProgram();
+		encoding.addFilesPath(encodingResource);
+		
+		//Aggiungiamo all'handler il programma logico
+		handler.addProgram(encoding);
+		
+	}
+	
+		
+	public void makeAnswerSet(ArrayList<Cell> nere, ArrayList<Cell> bianche, ArrayList<Cell> vuote) {					
+	
 		InputProgram facts= new ASPInputProgram();
-		facts.clearAll();
 		
 			try {
 				System.out.println("inizio  a passare i fatti");
@@ -66,24 +77,14 @@ public class ValutaMosse {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}			
-				
+		
+			
 		
 //		//Aggiungiamo all'handler i fatti 
 		handler.addProgram(facts);
 		
-//		try {
-//			handler.wait(1000);
-//		} catch (InterruptedException e1) {
-//			// TODO Auto-generated catch block
-//			e1.printStackTrace();
-//		}
-		
-		//Specifichiamo il programma logico tramite file
-		InputProgram encoding= new ASPInputProgram();
-		encoding.addFilesPath(encodingResource);
-		
-		//Aggiungiamo all'handler il programma logico
-		handler.addProgram(encoding);
+		facts.setSeparator("\n");
+		System.out.println(facts.getPrograms());
 		
 		//L'handler invoca DLV2 in modo SINCRONO dando come input il programma logico e i fatti
 		Output o =  handler.startSync();	
@@ -106,14 +107,24 @@ public class ValutaMosse {
 						answersCell.add(cell);
 					}					
 					else if(obj instanceof Move) {	
-						Move move = (Move) obj;			
+						Move move = (Move) obj;	
+						System.out.println("\n");
+						System.out.println("move(" + move.id + "," + move.row + "," + move.col+").");
 						answersMove.add(move);						
 					}
+//					else {
+//						System.out.println(obj.toString());
+//					}
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			} 
 		}
+		
+//		System.out.println("size Celle: "+answersCell.size());
+//		for(int i = 0; i<answersCell.size(); i++) {
+//			System.out.println("cell(" + answersCell.get(i).colore+ "," + answersCell.get(i).row + "," + answersCell.get(i).column+").");
+//		}
 	
 		System.out.println("size Move: "+answersMove.size());
 		for(int i = 0; i<answersMove.size(); i++) {

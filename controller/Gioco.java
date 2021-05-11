@@ -25,7 +25,7 @@ public class Gioco extends Scacchiera {
 	public Giocatore giocatoreBianco = new Giocatore(Colore.BIANCO);
 	public Giocatore giocatoreNero = new Giocatore(Colore.NERO);
 	
-	public ValutaMosse valutaMosse;
+	public ValutaMosse 	valutaMosse = new ValutaMosse();
 
 //	//turno
 //	public int aChiTocca = GiocatoreBIANCO;
@@ -445,7 +445,7 @@ public class Gioco extends Scacchiera {
 					vuote.add(new Cell(i,j,0));
 			}
 		}
-		valutaMosse=new ValutaMosse();
+		
 		valutaMosse.makeAnswerSet(nere, bianche, vuote);
 		
 
@@ -508,22 +508,7 @@ public class Gioco extends Scacchiera {
 		
 		
 		if(giocatoreBianco.turno){
-			// custodia
-			for(int dir=1; dir<=4; dir++) 
-				if(casellaAdiacente(destinazione, dir) != null) { // c'è una casella vicina in direzione dir
-					Casella c= casellaAdiacente(destinazione, dir);					
-					int nemico=contenuto(c.riga,c.colonna);	 // mi prendo il contenuto						
-					if(GiocatoreNERO==colore(nemico)) {  // controllo che sia un nemico						
-						if(casellaAdiacente(c, dir)!=null) { // controllo se nella stessa direzione del nemico c'è un mio alleato
-							Casella c2= casellaAdiacente(c, dir);
-							int alleato= contenuto(c2);
-							if(GiocatoreBIANCO==colore(alleato)) {							
-								metti(c, VUOTA); // mangia 					
-								giocatoreNero.setPunteggio(1); // scala punteggio avversario
-							}	
-						}							
-					}					
-				}
+			
 			//cattura
 			if(casellaAdiacente(destinazione, EST)!=null && casellaAdiacente(destinazione, OVEST)!=null) {
 				Casella e= casellaAdiacente(destinazione, EST);					
@@ -546,27 +531,29 @@ public class Gioco extends Scacchiera {
 					metti(s,VUOTA);
 					giocatoreNero.setPunteggio(2);								
 				}								
-			}						
-		}
-		
-		
-		if(giocatoreNero.turno){
-			//custodia
+			}
+			// custodia
 			for(int dir=1; dir<=4; dir++) 
 				if(casellaAdiacente(destinazione, dir) != null) { // c'è una casella vicina in direzione dir
 					Casella c= casellaAdiacente(destinazione, dir);					
 					int nemico=contenuto(c.riga,c.colonna);	 // mi prendo il contenuto						
-					if(GiocatoreBIANCO==colore(nemico)) {  // controllo che sia un nemico						
+					if(GiocatoreNERO==colore(nemico)) {  // controllo che sia un nemico						
 						if(casellaAdiacente(c, dir)!=null) { // controllo se nella stessa direzione del nemico c'è un mio alleato
 							Casella c2= casellaAdiacente(c, dir);
 							int alleato= contenuto(c2);
-							if(GiocatoreNERO==colore(alleato)) {							
+							if(GiocatoreBIANCO==colore(alleato)) {							
 								metti(c, VUOTA); // mangia 					
-								giocatoreBianco.setPunteggio(1); // scala punteggio avversario
+								giocatoreNero.setPunteggio(1); // scala punteggio avversario
 							}	
 						}							
 					}					
 				}
+									
+		}
+		
+		
+		if(giocatoreNero.turno){
+			
 			//cattura
 			if(casellaAdiacente(destinazione, EST)!=null && casellaAdiacente(destinazione, OVEST)!=null) {
 				Casella e= casellaAdiacente(destinazione, EST);					
@@ -589,7 +576,23 @@ public class Gioco extends Scacchiera {
 					metti(s,VUOTA);
 					giocatoreBianco.setPunteggio(2);								
 				}								
-			}	
+			}
+			//custodia
+			for(int dir=1; dir<=4; dir++) 
+				if(casellaAdiacente(destinazione, dir) != null) { // c'è una casella vicina in direzione dir
+					Casella c= casellaAdiacente(destinazione, dir);					
+					int nemico=contenuto(c.riga,c.colonna);	 // mi prendo il contenuto						
+					if(GiocatoreBIANCO==colore(nemico)) {  // controllo che sia un nemico						
+						if(casellaAdiacente(c, dir)!=null) { // controllo se nella stessa direzione del nemico c'è un mio alleato
+							Casella c2= casellaAdiacente(c, dir);
+							int alleato= contenuto(c2);
+							if(GiocatoreNERO==colore(alleato)) {							
+								metti(c, VUOTA); // mangia 					
+								giocatoreBianco.setPunteggio(1); // scala punteggio avversario
+							}	
+						}							
+					}					
+				}	
 		}				
 		
 		System.out.println("punteggio giocatoreBianco: "+giocatoreBianco.getPunteggio());
