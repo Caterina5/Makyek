@@ -33,7 +33,10 @@ public class SchermataIniziale extends JFrame {
 		MakyekGG.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Scacchiera.IntelligenzaVSIntelligenza=true;
+				Scacchiera.giocatoreVSgiocatore=true;
+				Scacchiera.giocatoreVSintelligenza=false;
+				Scacchiera.intelligenzaVSintelligenza=false;
+				
 				Dama.avviaGioco();
 				dispose();
 			}
@@ -44,7 +47,9 @@ public class SchermataIniziale extends JFrame {
 		MakyekGI.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Scacchiera.IntelligenzaVSIntelligenza=false;
+				Scacchiera.giocatoreVSgiocatore=false;
+				Scacchiera.giocatoreVSintelligenza=true;
+				Scacchiera.intelligenzaVSintelligenza=false;
 				Dama.avviaGioco();
 				dispose();
 			}
@@ -55,7 +60,9 @@ public class SchermataIniziale extends JFrame {
 		MakyekII.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Scacchiera.IntelligenzaVSIntelligenza=true;
+				Scacchiera.giocatoreVSgiocatore=false;
+				Scacchiera.giocatoreVSintelligenza=false;
+				Scacchiera.intelligenzaVSintelligenza=true;
 				Dama.avviaGioco();
 				dispose();
 			}
