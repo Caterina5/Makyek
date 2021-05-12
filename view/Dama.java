@@ -197,5 +197,10 @@ public class Dama extends JFrame {
 		Component frame = null;
 		JOptionPane.showMessageDialog(frame, s);
 	}
+	
+	//Metodo voi che avvia il gioco
+		public static void avviaGioco(){
+			new Dama(new Gioco()).setVisible(true);
+		}	
 
 }

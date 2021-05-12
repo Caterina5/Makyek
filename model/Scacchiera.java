@@ -19,6 +19,8 @@ public class Scacchiera
   public static final int GiocatoreBIANCO = 1;
   public static final int GiocatoreNERO = 2;
   
+  public static boolean IntelligenzaVSIntelligenza;
+  
   
   protected int[][] contenutoCaselle;
   

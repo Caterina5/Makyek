@@ -1,14 +1,15 @@
 package engine;
 
-import controller.Gioco;
-import view.Dama;
+import javax.swing.JFrame;
 
 public class Main {
 	
 	public static void main(String[] args) {
-		
-		//Lancio la schermata iniziale
-		new Dama(new Gioco()).setVisible(true);
+			
+			//Lancio la schermata iniziale
+			JFrame window = new SchermataIniziale();
+	        window.setVisible(true);
+
 	}
 
 }
