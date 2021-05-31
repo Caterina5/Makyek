@@ -64,12 +64,12 @@ public class ValutaMosse {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}			
-		
 			
 		
 //		//Aggiungiamo all'handler i fatti 
-		handler.addProgram(facts);
+		int id = handler.addProgram(facts);
 		
+	
 		//stampa fatti
 		System.out.println("\n");
 		System.out.println(facts.getPrograms());
@@ -77,6 +77,7 @@ public class ValutaMosse {
 		
 		//L'handler invoca DLV2 in modo SINCRONO dando come input il programma logico e i fatti
 		Output o =  handler.startSync();	
+		
 		
 		//ArrayList per salvare
 		ArrayList<Cell> answersCell = new ArrayList<Cell>();
@@ -116,6 +117,8 @@ public class ValutaMosse {
 			System.out.println("move: "+"("+ answersMove.get(i).x + "," + answersMove.get(i).y + ") in (" + answersMove.get(i).row + "," + answersMove.get(i).col+").");
 		}
 		System.out.println("\n\n");
+		
+		handler.removeProgram(id);
 		
 	}
   
