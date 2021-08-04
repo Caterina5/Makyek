@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import model.Cell;
 import model.Giocatore;
 import model.Giocatore.Colore;
+import model.Move;
 import model.Scacchiera;
 import view.Casella;
 
@@ -428,7 +429,7 @@ public class Gioco extends Scacchiera {
 	}
 	
 	//Metodo che esegue la mossa del Computer, cercando la mossa migliore che sia a suo favore.
-	public void mossaComputer() {			
+	public void mossaComputer() {	
 			
 		ArrayList<Cell> bianche = new ArrayList<Cell>();
 		ArrayList<Cell> nere = new ArrayList<Cell>();
@@ -446,19 +447,9 @@ public class Gioco extends Scacchiera {
 			}
 		}
 		
-		valutaMosse.makeAnswerSet(nere, bianche, vuote);
+		Move mossa = valutaMosse.makeAnswerSet(nere, bianche, vuote);
 		
-
-//		//Non deve mangiare, allora valuto la mossa migliore che mi restituisce l'intelligenza artificiale
-//			if (max == 0) {
-//				ValutaMosse prova = new ValutaMosse(this);
-//				Mossa pop = prova.mossaMigliore();
-//				//E la eseguo
-//				this.esegui(pop);
-//			} else
-//			//Posso mangiare e quindi sono vincolato a mangiare la pedina nemica. Eseguo quindi la mangiata.
-//				//gioco.esegui(mossamax);
-//		}
+		esegui(new Casella(mossa.x, mossa.y ), new Casella(mossa.row ,mossa.col));
 
 	}
 	
@@ -474,10 +465,14 @@ public class Gioco extends Scacchiera {
 		//Corrispondenza trovata tra la mossa che voglrrei fare e quelle suggerite (possibili)
 			if (mossePedina.get(i).riga == x2 && mossePedina.get(i).colonna == y2) {
 				trovata = true;
+				
 				esegui(new Casella(x1,y1), new Casella(x2,y2));
+			
 				if(giocatoreNero.isTurno()) {
-					if(puoAncoraGiocare(giocatoreNero))
+					if(puoAncoraGiocare(giocatoreNero)) {
+						
 						mossaComputer();
+					}
 					else
 						return endGame();
 				}

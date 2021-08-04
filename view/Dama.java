@@ -10,6 +10,7 @@ import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Time;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -17,8 +18,11 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.border.LineBorder;
 
+import model.Cell;
+import model.Move;
 import model.Scacchiera;
 import controller.Gioco;
+import controller.ValutaMosse;
 
 
 public class Dama extends JFrame {
@@ -30,6 +34,7 @@ public class Dama extends JFrame {
 	protected JButton p2 = null;
 	protected Gioco gioco;
 
+
 	public Dama(Gioco gioco) {
 		super("Mak-Yek");
 		this.gioco = gioco;
@@ -37,16 +42,29 @@ public class Dama extends JFrame {
 				
 		// Imposto la grafica
 		this.setLayout(new GridLayout(8, 8));
-		setResizable(false);
-		showBoard(-1,-1);
-		setSize(720, 720);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
+		System.out.println("disegno griglia");
 		//Centro la finestra
+		
+		
+		setSize(720, 720);
 		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
 		int x = (int) ((dimension.getWidth() - this.getWidth()) / 2);
 		int y = (int) ((dimension.getHeight() - this.getHeight()) / 2);
+		
 		this.setLocation(x, y);
+		setResizable(false);
+		this.setFocusable(true);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		try {
+			Thread.sleep(4000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		showBoard(-1,-1);
+		this.setVisible(true);
 	}
 	
 	// Metodo che genera i bottoni e quindi la grafica che assumerà la dama.
@@ -207,6 +225,7 @@ public class Dama extends JFrame {
 								getContentPane().removeAll();
 								//passo alla showBoard il primo click
 								showBoard(p.getPosizione().x,p.getPosizione().y);
+								
 								invalidate();
 								validate();
 							} 
@@ -240,6 +259,65 @@ public class Dama extends JFrame {
 			}
 		}
 		
+		if(Scacchiera.intelligenzaVSintelligenza==true) {
+			gioco.giocatoreBianco.setTurno(true);
+			
+			//setVisible(true);
+			//inizio scansione scacchiera
+			for (int y = 0; y < 8; y++) {
+				for (int x = 0; x < 8; x++) {
+					
+					final Casella p;
+					//se la casella x,y corrisponde a una casella suggerita verrà colorata altrimenti
+					//gli viene assegnata la pedina corrispondente
+						
+					p = generaPedina(gioco.contenuto(y, x), x, y, false);
+							
+	
+					// Aggiungo il bottone
+					add(p);
+				}
+			}
+			
+			try {
+					Thread.sleep(4000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			
+			//primo click, se ho cliccato su una pedina del player
+			if (gioco.giocatoreBianco.turno) {
+				System.out.println("Sono il bianco");
+				ArrayList<Cell> bianche = new ArrayList<Cell>();
+				ArrayList<Cell> nere = new ArrayList<Cell>();
+				ArrayList<Cell> vuote = new ArrayList<Cell>();
+				
+				for (int i = 0; i < Scacchiera.DIM_LATO; i++) {
+					for (int j = 0; j < Scacchiera.DIM_LATO; j++) {
+
+						if (gioco.colore(gioco.contenuto(i, j)) == Scacchiera.GiocatoreNERO) 
+							nere.add(new Cell(i,j,2));
+						else if (gioco.colore(gioco.contenuto(i, j)) == Scacchiera.GiocatoreBIANCO) 
+							bianche.add(new Cell(i,j,1));
+						else 
+							vuote.add(new Cell(i,j,0));
+					}
+				}
+				
+				
+				
+				Move mossa = gioco.valutaMosse.makeAnswerSet(nere, bianche, vuote);
+//			
+//				gioco.provaMossaGiocatore(mossa.x, mossa.y, mossa.row, mossa.col);
+//				
+			} 
+
+			// Distruggo e ridisegno la grafica
+			//getContentPane().removeAll();
+			//showBoard(-1,-1);
+			
+		}		
 
 		
 	}
@@ -283,6 +361,7 @@ public class Dama extends JFrame {
 	//Metodo voi che avvia il gioco
 		public static void avviaGioco(){
 			new Dama(new Gioco()).setVisible(true);
+			
 		}	
 
 }

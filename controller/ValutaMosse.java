@@ -23,7 +23,7 @@ public class ValutaMosse {
 
 	
 	public ValutaMosse() {
-		
+	System.out.println("CAZZOOOOOOOOOOOOOO");
 	handler = new DesktopHandler(new DLV2DesktopService("lib/dlv2.exe"));	
 			
 		try {
@@ -45,8 +45,8 @@ public class ValutaMosse {
 	}
 	
 		
-	public void makeAnswerSet(ArrayList<Cell> nere, ArrayList<Cell> bianche, ArrayList<Cell> vuote) {					
-	
+	public Move makeAnswerSet(ArrayList<Cell> nere, ArrayList<Cell> bianche, ArrayList<Cell> vuote) {					
+		System.out.println("SONO QUIIIIIIIIIIIII");
 		InputProgram facts= new ASPInputProgram();
 		
 			try {
@@ -120,6 +120,9 @@ public class ValutaMosse {
 		
 		handler.removeProgram(id);
 		
+		System.out.println(answersMove.get(0).x + "," + answersMove.get(0).y);
+		
+		return answersMove.get(0);
 	}
   
 }

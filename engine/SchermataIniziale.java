@@ -63,8 +63,9 @@ public class SchermataIniziale extends JFrame {
 				Scacchiera.giocatoreVSgiocatore=false;
 				Scacchiera.giocatoreVSintelligenza=false;
 				Scacchiera.intelligenzaVSintelligenza=true;
-				Dama.avviaGioco();
 				dispose();
+				Dama.avviaGioco();
+				
 			}
 		});
 		
