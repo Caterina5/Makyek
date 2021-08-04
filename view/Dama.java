@@ -128,6 +128,7 @@ public class Dama extends JFrame {
 		boolean trovata=false;
 		
 		if(Scacchiera.giocatoreVSgiocatore==true) {
+			System.out.println("Entro qui");
 			//inizio scansione scacchiera
 		for (int y = 0; y < 8; y++) {
 			for (int x = 0; x < 8; x++) {

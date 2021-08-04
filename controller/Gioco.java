@@ -432,25 +432,25 @@ public class Gioco extends Scacchiera {
 	
 	//Metodo che esegue la mossa del Computer, cercando la mossa migliore che sia a suo favore.
 	public void mossaComputer() {	
+		
+			ArrayList<Cell> bianche = new ArrayList<Cell>();
+			ArrayList<Cell> nere = new ArrayList<Cell>();
+			ArrayList<Cell> vuote = new ArrayList<Cell>();
 			
-		ArrayList<Cell> bianche = new ArrayList<Cell>();
-		ArrayList<Cell> nere = new ArrayList<Cell>();
-		ArrayList<Cell> vuote = new ArrayList<Cell>();
-		
-		for (int i = 0; i < Scacchiera.DIM_LATO; i++) {
-			for (int j = 0; j < Scacchiera.DIM_LATO; j++) {
-
-				if (colore(contenuto(i, j)) == GiocatoreNERO) 
-					nere.add(new Cell(i,j,2));
-				else if (colore(contenuto(i, j)) == GiocatoreBIANCO) 
-					bianche.add(new Cell(i,j,1));
-				else 
-					vuote.add(new Cell(i,j,0));
+			for (int i = 0; i < Scacchiera.DIM_LATO; i++) {
+				for (int j = 0; j < Scacchiera.DIM_LATO; j++) {
+	
+					if (colore(contenuto(i, j)) == GiocatoreNERO) 
+						nere.add(new Cell(i,j,2));
+					else if (colore(contenuto(i, j)) == GiocatoreBIANCO) 
+						bianche.add(new Cell(i,j,1));
+					else 
+						vuote.add(new Cell(i,j,0));
+				}
 			}
-		}
-		
-		Move mossa = valutaMosse.makeAnswerSet(nere, bianche, vuote);
-		
+			
+			Move mossa = valutaMosse.makeAnswerSet(nere, bianche, vuote);
+			
 		esegui(new Casella(mossa.x, mossa.y ), new Casella(mossa.row ,mossa.col));
 
 	}
@@ -472,9 +472,10 @@ public class Gioco extends Scacchiera {
 				System.out.println("ho eseguito la mossa del giocatore bianco");
 			
 				if(giocatoreNero.isTurno()) {
-					if(puoAncoraGiocare(giocatoreNero)) {
-						
-						mossaComputer();
+					if(puoAncoraGiocare(giocatoreNero) && Scacchiera.giocatoreVSintelligenza) {
+							mossaComputer();
+					}else if(puoAncoraGiocare(giocatoreNero) && Scacchiera.giocatoreVSgiocatore) {
+						return null;
 					}
 					else
 						return endGame();
