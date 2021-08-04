@@ -19,6 +19,7 @@ import javax.swing.Timer;
 import javax.swing.border.LineBorder;
 
 import model.Cell;
+import model.Giocatore;
 import model.Move;
 import model.Scacchiera;
 import controller.Gioco;
@@ -153,7 +154,11 @@ public class Dama extends JFrame {
 			//se la casella x,y corrisponde a una casella suggerita verrà colorata altrimenti
 			//gli viene assegnata la pedina corrispondente
 				if(trovata){
-					p = generaPedina(gioco.contenuto(y, x), 0, 0, true);
+					if(gioco.giocatoreBianco.isTurno())
+						p = generaPedinaGvsG(gioco.contenuto(y, x), 0, 0, true, Scacchiera.GiocatoreBIANCO);
+					else
+						p = generaPedinaGvsG(gioco.contenuto(y, x), 0, 0, true, Scacchiera.GiocatoreNERO);
+						
 				}
 				else{
 					p = generaPedina(gioco.contenuto(y, x), x, y, false);
@@ -371,6 +376,41 @@ public class Dama extends JFrame {
 		validate();
 		setVisible(true);
 	}
+	
+	private Casella generaPedinaGvsG(int valore, int x, int y, boolean colore, int giocatore) { //crea una pedina del colore giusto
+		// Genero le pedine
+		if (valore >= 1 && valore <= 4 && colore == false)
+			return new Pedina(valore);
+		
+		else if(colore == true){
+			
+			Pedina pedColorata = new Pedina(valore);
+			if(giocatore==2) 
+				pedColorata.setBorder(new LineBorder(Color.RED, 4));
+			else
+				pedColorata.setBorder(new LineBorder(Color.BLUE, 4));
+						
+			return pedColorata;
+		}
+		
+		if (valore == 0) {
+			if (gioco.eNera(x, y)) {
+				return new Vuota(Color.lightGray);
+			}
+		}
+
+		// Penso a colorare la parte centrale
+		if (y == 3)
+			if (x % 2 == 1)
+				return new Vuota(Color.lightGray);
+		// Penso a colorare la parte centrale
+		if (y == 4)
+			if (x % 2 == 0)
+				return new Vuota(Color.lightGray);
+
+		// Di default tutto è bianco
+		return new Vuota();
+	}
 
 	private Casella generaPedina(int valore, int x, int y, boolean colore) { //crea una pedina del colore giusto
 		// Genero le pedine
@@ -379,7 +419,7 @@ public class Dama extends JFrame {
 		
 		else if(colore == true){
 			Pedina pedColorata = new Pedina(valore);
-			pedColorata.setBorder(new LineBorder(Color.RED, 4));
+			pedColorata.setBorder(new LineBorder(Color.blue, 4));
 			return pedColorata;
 		}
 		
