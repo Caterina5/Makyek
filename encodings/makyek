@@ -47,7 +47,7 @@ minEnemyNear(Z,X,Y):- #min{C: enemyNear(C,_,_)}=Z, enemyNear(Z,X,Y).
 
 %A livello più alto (3), cerchiamo di spostarci in una casella che permette di mangiare più pedine possibile
 :~ noMove(I,X,Y), maxEnemyNear(Z,X,Y). [Z@3,X,Y]
-:- move(I,X,Y), minEnemyNear(Z,X,Y).
+:~ move(I,X,Y), minEnemyNear(Z,X,Y).[Z@2]
 
 %A livello 2, cerchiamo di NON spostarci in una casella che permette di mangiare una sola pedina nemica
 :~ move(I,X,Y), enemyNear(N,X,Y), N<=1. [N@2]

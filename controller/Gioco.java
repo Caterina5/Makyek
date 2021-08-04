@@ -101,11 +101,13 @@ public class Gioco extends Scacchiera {
 		}
 		
 		public String endGame() {
+			System.out.println("qualcuno ha vinto");
 			// almeno uno dei due non ha mosse, vince l'altro
 			if (giocatoreBianco.pedine < 2)
 				return "Ha vinto il giocatore nero";
 			else
 				return "Ha vinto il giocatore bianco";
+			
 		}
 
 

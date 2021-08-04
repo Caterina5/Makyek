@@ -118,9 +118,7 @@ public class ValutaMosse {
 		}
 		System.out.println("\n\n");
 		
-		handler.removeProgram(id);
-		
-		System.out.println(answersMove.get(0).x + "," + answersMove.get(0).y);
+		handler.removeProgram(id);			
 		
 		return answersMove.get(0);
 	}

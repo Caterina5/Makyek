@@ -33,6 +33,9 @@ public class Dama extends JFrame {
 	protected JButton p1 = null;
 	protected JButton p2 = null;
 	protected Gioco gioco;
+	Timer timerBianco = null;
+	Timer timerNero = null;
+	boolean giocoFinito=false;
 
 
 	public Dama(Gioco gioco) {
@@ -52,25 +55,76 @@ public class Dama extends JFrame {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		if(Scacchiera.intelligenzaVSintelligenza==true) {
-			gioco.giocatoreBianco.setTurno(true);
+		if(Scacchiera.intelligenzaVSintelligenza==true) {			
 			generaScacchiera();
-			ActionListener taskPerformer = new ActionListener() {
-			      public void actionPerformed(ActionEvent evt) {
-			       showBoard(-1,-1);
+			ActionListener taskPerformerBianco = new ActionListener() {
+			      public void actionPerformed(ActionEvent evt) {			    
+			    	  generaScacchiera();
+			    	  intelligenzaVSintelligenzaBianco();
 			      }
 			    };
-			
-			Timer timer = new Timer(4000 ,taskPerformer);
-			timer.setRepeats(true);
-			timer.start();
+			  
+			 timerBianco= new Timer(2000, taskPerformerBianco);
+			 timerBianco.start();
+			 
+			    
+			ActionListener taskPerformerNero = new ActionListener() {
+			      public void actionPerformed(ActionEvent evt) {			    
+			    	  generaScacchiera();
+			    	  intelligenzaVSintelligenzaNero();
+			      }
+			    };
+			timerNero= new Timer(4000, taskPerformerNero);
+			timerNero.start();			
 		}
-		showBoard(-1,-1);
+		else {
+			showBoard(-1,-1);
+		}		
 		this.setVisible(true);
 	}
 	
-	// Metodo che genera i bottoni e quindi la grafica che assumerà la dama.
-	 
+	protected void intelligenzaVSintelligenzaBianco() {
+		
+		if(!gioco.puoAncoraGiocare(gioco.giocatoreBianco)) {
+			timerBianco.stop();
+			timerNero.stop();
+			stampaMessaggio(gioco.endGame());
+		}							
+			
+		generaScacchiera();		
+				
+		if (gioco.giocatoreBianco.turno) {
+			
+			System.out.println("\n ++ è il turno del giocatore Bianco");
+			Move mossa= getMossaBianco();
+			gioco.esegui(new Casella(mossa.x,mossa.y), new Casella(mossa.row,mossa.col));			
+			
+			System.out.println("ho eseguito la mossa del giocatore bianco");				
+		} 									
+	}
+	
+	protected void intelligenzaVSintelligenzaNero() {
+				
+		if(!gioco.puoAncoraGiocare(gioco.giocatoreNero)) {
+			timerNero.stop();
+			timerBianco.stop();
+			stampaMessaggio(gioco.endGame());
+		}							
+			
+		generaScacchiera();		
+				
+		if (gioco.giocatoreNero.turno) {
+			
+			System.out.println("\n ++ è il turno del giocatore nero");
+			Move mossa= getMossaNero();
+			gioco.esegui(new Casella(mossa.x,mossa.y), new Casella(mossa.row,mossa.col));			
+			
+			System.out.println("ho eseguito la mossa del giocatore nero");				
+		} 									
+	}		
+
+
+	// Metodo che genera i bottoni e quindi la grafica che assumerà la dama.	 
 	private void showBoard(int xiniziale, int yiniziale) {
 		
 		//controlla se il primo click corrisponde a una pedina del player
@@ -259,67 +313,29 @@ public class Dama extends JFrame {
 					add(p);
 				}
 			}
-		}
-		
-		if(Scacchiera.intelligenzaVSintelligenza==true) {
-			
-			if (gioco.giocatoreBianco.turno) {
-			
-				Move mossa= getMossa();
-				gioco.esegui(new Casella(mossa.x,mossa.y), new Casella(mossa.row,mossa.col));					
-				System.out.println("ho eseguito la mossa del giocatore bianco");
-				
-				gioco.giocatoreNero.setTurno(true);
-				gioco.giocatoreBianco.setTurno(false);		
-			} 
-			
-			if (gioco.giocatoreNero.turno) {
-				
-				Move mossa= getMossa();
-				gioco.esegui(new Casella(mossa.x,mossa.y), new Casella(mossa.row,mossa.col));			
-				
-				System.out.println("ho eseguito la mossa del giocatore nero");
-				gioco.giocatoreBianco.setTurno(true);
-				gioco.giocatoreNero.setTurno(false);				
-			} 
-						
-			if(gioco.giocatoreNero.isTurno()) {
-				if(gioco.puoAncoraGiocare(gioco.giocatoreNero)) {					
-					generaScacchiera();
-					ActionListener taskPerformer = new ActionListener() {
-					      public void actionPerformed(ActionEvent evt) {
-					       showBoard(-1,-1);
-					      }
-					    };
-					
-					Timer timer = new Timer(2000 ,taskPerformer);
-					timer.setRepeats(true);
-					timer.start();
-				}
-				else
-					gioco.endGame();
-			}
-			
-			if(gioco.giocatoreBianco.isTurno()) {
-				if(gioco.puoAncoraGiocare(gioco.giocatoreBianco)) {					
-					generaScacchiera();
-					ActionListener taskPerformer = new ActionListener() {
-					      public void actionPerformed(ActionEvent evt) {
-					       showBoard(-1,-1);
-					      }
-					    };
-					
-					Timer timer = new Timer(2000 ,taskPerformer);
-					timer.setRepeats(true);
-					timer.start();
-				}
-				else
-					gioco.endGame();
-			}					
-		}		
+		}			
 	}
 	
-	private Move getMossa() {
+	private Move getMossaBianco() {
+		ArrayList<Cell> bianche = new ArrayList<Cell>();
+		ArrayList<Cell> nere = new ArrayList<Cell>();
+		ArrayList<Cell> vuote = new ArrayList<Cell>();
+		
+		for (int i = 0; i < Scacchiera.DIM_LATO; i++) {
+			for (int j = 0; j < Scacchiera.DIM_LATO; j++) {
+
+				if (gioco.colore(gioco.contenuto(i, j)) == Scacchiera.GiocatoreBIANCO) 
+					nere.add(new Cell(i,j,2));
+				else if (gioco.colore(gioco.contenuto(i, j)) == Scacchiera.GiocatoreNERO) 
+					bianche.add(new Cell(i,j,1));
+				else 
+					vuote.add(new Cell(i,j,0));
+			}
+		}			
+		return gioco.valutaMosse.makeAnswerSet(nere, bianche, vuote);
+	}
+	
+	private Move getMossaNero() {
 		ArrayList<Cell> bianche = new ArrayList<Cell>();
 		ArrayList<Cell> nere = new ArrayList<Cell>();
 		ArrayList<Cell> vuote = new ArrayList<Cell>();
@@ -341,7 +357,9 @@ public class Dama extends JFrame {
 	
 
 	void generaScacchiera() {
+		
 		getContentPane().removeAll();
+		
 		for (int y = 0; y < 8; y++) {
 			for (int x = 0; x < 8; x++) {
 				
@@ -389,7 +407,7 @@ public class Dama extends JFrame {
 	//Metodo che si preoccupa di stampare il messaggio passatogli per parametro.
 	public void stampaMessaggio(String s) {
 		Component frame = null;
-		JOptionPane.showMessageDialog(frame, s);
+		JOptionPane.showMessageDialog(frame, s);		
 	}
 	
 	//Metodo voi che avvia il gioco
