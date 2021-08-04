@@ -69,31 +69,6 @@ public class Gioco extends Scacchiera {
 		return fra;
 	}
 	
-	
-//	 // Esegue la mossa assegnata, cambia anche il giocatore a cui tocca.
-//		public void esegui(Mossa m) {
-//		
-//			Casella c0 = (Casella) m.caselleToccate.getFirst();
-//			int pezzo = contenuto(c0.riga, c0.colonna);
-//			metti(c0, VUOTA);
-//			Casella c1 = (Casella) m.caselleToccate.getLast();
-//			//if (m.fattaDama)
-//				//pezzo = promossaDama(pezzo);
-//			metti(c1, pezzo);
-//			ListIterator<Casella> iter = m.caselleMangiate.listIterator();
-//			while (iter.hasNext()) {
-//				Casella c = (Casella) iter.next();
-//				metti(c, VUOTA);
-//			}
-//			if(giocatoreBianco.turno) {
-//				giocatoreBianco.setTurno(false);
-//				giocatoreNero.setTurno(true);
-//			}
-//			else {
-//				giocatoreNero.setTurno(false);
-//				giocatoreBianco.setTurno(true);		
-//			}
-//		}
 		
 		public boolean puoAncoraGiocare(Giocatore g) {
 			if(g.pedine < 2)
@@ -102,7 +77,6 @@ public class Gioco extends Scacchiera {
 		}
 		
 		public String endGame() {
-			System.out.println("qualcuno ha vinto");
 			// almeno uno dei due non ha mosse, vince l'altro
 			if (giocatoreBianco.pedine < 2)
 				return "Ha vinto il giocatore nero";
@@ -110,216 +84,6 @@ public class Gioco extends Scacchiera {
 				return "Ha vinto il giocatore bianco";
 			
 		}
-
-
-	//  Ritorna se le due caselle sono direttamente adiacenti, cioe' si toccano
-
-	
-
-	
-
-
-	
-	 // Controlla se il pezzo che si trova sull'ultima casella della mossa m puo'
-	 // andare ancora nella direzione direz
-	 
-//	   public boolean puoAndare(Mossa m, int direz) {
-//		// se era pedina e si e' appena trasformata in dama no
-////		if (m.fattaDama) {
-////			msg = "No: appena promossa dama";
-////			return false;
-////		}
-//		Casella c0 = (Casella) m.caselleToccate.get(0);
-//		Casella c1 = (Casella) m.caselleToccate.get(m.caselleToccate.size());
-//		int pezzo = contenuto(c0.riga, c0.colonna);
-//		int col = colore(pezzo);
-//		// se non tocca a questo colore no
-//		// if (col!=aChiTocca)
-//		// { msg = "No: non tocca a questo colore"; return false; }
-//		// se e' pedina e la direz non e' verso avanti no
-////		if (ePedina(pezzo) && (!eVersoAvanti(direz, col))) {
-////			msg = "No: pedina va solo verso avanti";
-////			return false;
-////		}
-//		// se uscisse dai limiti della scacchiera no
-//		Casella c2 = casellaAdiacente(c1, direz);
-//		if (c2 == null) {
-//			msg = "No: adiacente non esiste";
-//			return false;
-//		}
-//		// se la casella adiacente in direzione direz e' libera...
-//		if (contenuto(c2) == VUOTA) {
-//			// se il pezzo e' ancora al punto di partenza allora si
-//			if (m.caselleToccate.size() == 1) {
-//				m.caselleToccate.get(m.caselleToccate.size());
-////				if (ePedina(pezzo) && bordoOpposto(c2, col))
-////					m.fattaDama = true;
-////				{
-//					msg = "Si: adiacente esiste e vuota";
-//					return true;
-////				}
-//			}
-//			// altrimenti no
-////			else {
-//				msg = "No: mossa terminata";
-//				return false;
-////			}
-//		}
-//		// la casella adiacente in direzione direz e' occupata da
-//		// un pezzo, controllo se lo puo' mangiare...
-//		// se ha gia' fatto una mossa semplice allora no
-//		if ((m.caselleToccate.size() > 1) && (m.caselleMangiate.size() == 0)) {
-//			msg = "No: ha gia fatto mossa semplice";
-//			return false;
-//		}
-//		int pezzoDaMangiare = contenuto(c2.riga, c2.colonna);
-//		// se nella casella da mangiare c'e' colore opposto...
-//		if (colore(pezzoDaMangiare) == coloreOpposto(col)) {
-//			// se questo pezzo e' pedina e quello da mangiare dama allora no
-//			if (ePedina(pezzo) && !ePedina(pezzoDaMangiare)) {
-//				msg = "No: pedina non mangia dama";
-//				return false;
-//			}
-//			Casella c3 = casellaAdiacente(c2, direz);
-//			// se mangiando il pezzo finirebbe fuori da scacchiera allora no
-//			if (c3 == null) {
-//				msg = "No: seconda adiacente non esiste";
-//				return false;
-//			}
-//			// se il pezzo l'ha gia' mangiato (e' dama e sta facendo un ciclo)
-//			// allora no
-//			if (!ePedina(pezzo)) {
-//				ListIterator<Casella> iter = m.caselleMangiate.listIterator();
-//				while (iter.hasNext()) {
-//					Casella cm = (Casella) iter.next();
-//					if (Casella.stessa(cm, c2)) {
-//						msg = "No: ciclo";
-//						return false;
-//					}
-//				}
-//			}
-//			// se mangiando il pezzo finisce su casella vuota allora si
-//			if (contenuto(c3) == VUOTA) {
-//				m.caselleToccate.addLast(c3);
-//				m.caselleMangiate.addLast(c2);
-//				if (ePedina(pezzo) && bordoOpposto(c3, col))
-//					m.fattaDama = true;
-//				{
-//					msg = "Si: mangia";
-//					return true;
-//				}
-//			}
-//			// se mangiando finisce su casella occupata allora no
-//			else {
-//				msg = "No: seconda adiacente non vuota";
-//				return false;
-//			}
-//		}
-//		// se nella casella da mangiare c'e' stesso colore allora no
-//		else {
-//			msg = "No: non mangia stesso colore";
-//			return false;
-//		}
-//	}
-//
-//	/**
-//	 * Controlla se il pezzo che si trova sull'ultima casella della mossa m puo'
-//	 * andare nella casella cas, in caso affermativo estende la mossa m.
-//	 * 
-//	 * @param m
-//	 *            la mossa che provo a estendere
-//	 * @param cas
-//	 *            la casella in cui provo a estenderla
-//	 */
-//	public boolean puoAndare(Mossa m, Casella cas) {
-//		if (m.fattaDama) {
-//			msg = "No: appena promossa dama";
-//			return false;
-//		}
-//		if (contenuto(cas) != VUOTA) {
-//			msg = "No: casella destinazione non vuota";
-//			return false;
-//		}
-//		Casella c0 = (Casella) m.caselleToccate.getFirst();
-//		Casella c1 = (Casella) m.caselleToccate.getLast();
-//		int pezzo = contenuto(c0.riga, c0.colonna);
-//		int col = colore(pezzo);
-//		// if (col!=aChiTocca)
-//		// { msg = "No: non tocca a questo colore"; return false; }
-////		if (ePedina(pezzo) && (!eVersoAvanti(c1, cas, col))) {
-////			msg = "No: pedina muove solo verso avanti";
-////			return false;
-////		}
-//		if (adiacenteDiretta(c1, cas)) {
-//			// se il pezzo e' ancora al punto di partenza allora si
-//			if (m.caselleToccate.size() == 1) {
-//				m.caselleToccate.addLast(cas);
-//				if (ePedina(pezzo) && bordoOpposto(cas, col))
-//					m.fattaDama = true;
-//				{
-//					msg = "Si: adiacente diretta vuota";
-//					return true;
-//				}
-//			}
-//			// altrimenti no
-//			else {
-//				msg = "No: mossa terminata";
-//				return false;
-//			}
-//		}
-//		// la casella destinazione non e' l'adiacente diretta,
-//		// sta cercando di mangiare un pezzo, controllo se puo'...
-//		// se ha gia' fatto una mossa semplice allora no
-//		if ((m.caselleToccate.size() > 1) && (m.caselleMangiate.size() == 0)) {
-//			msg = "No: ha gia fatto mossa semplice";
-//			return false;
-//		}
-//		Casella c2 = mangiataFra(c1, cas);
-//		if (c2 == null) {
-//			msg = "No: non esiste casella frapposta";
-//			return false;
-//		}
-//		int pezzoDaMangiare = contenuto(c2);
-//		// se nella casella da mangiare c'e colore opposto...
-//		if (colore(pezzoDaMangiare) == coloreOpposto(col)) {
-//			// se questo pezzo e' pedina e quello da mangiare dama allora no
-//			if (ePedina(pezzo) && !ePedina(pezzoDaMangiare)) {
-//				msg = "No: pedina non mangia dama";
-//				return false;
-//			}
-//			// se il pezzo l'ha gia' mangiato (e' dama e sta facendo un ciclo)
-//			// allora no
-//			if (!ePedina(pezzo)) {
-//				ListIterator<Casella> iter = m.caselleMangiate.listIterator();
-//				while (iter.hasNext()) {
-//					Casella cm = (Casella) iter.next();
-//					if (Casella.stessa(cm, c2)) {
-//						msg = "No: ciclo";
-//						return false;
-//					}
-//				}
-//			}
-//			// ho gia' controllato che casella destinazione vuota, quind si
-//			m.caselleToccate.addLast(cas);
-//			m.caselleMangiate.addLast(c2);
-//			if (ePedina(pezzo) && bordoOpposto(cas, col))
-//				m.fattaDama = true;
-//			{
-//				msg = "Si: mangia pezzo";
-//				return true;
-//			}
-//		} else // stesso colore o vuota
-//		{
-//			msg = "No: casella frapposta stesso colore o vuota";
-//			return false;
-//		}
-//	}
-
-
-	// Se uno dei due giocatori ha vinto, ritorna il colore del vincitore,
-	 
-	
-
 	
 	// Restituisce lista di tutte le mosse possibili per il pezzo che si trova
 	// nella casella specificata.
@@ -433,13 +197,6 @@ public class Gioco extends Scacchiera {
 	
 	//Metodo che esegue la mossa del Computer, cercando la mossa migliore che sia a suo favore.
 	public void mossaComputer() {
-		
-		try {
-			TimeUnit.SECONDS.sleep(10);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		
 			ArrayList<Cell> bianche = new ArrayList<Cell>();
 			ArrayList<Cell> nere = new ArrayList<Cell>();
