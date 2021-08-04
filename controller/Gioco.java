@@ -1,6 +1,7 @@
 package controller;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 import model.Cell;
 import model.Giocatore;
@@ -431,7 +432,14 @@ public class Gioco extends Scacchiera {
 	}
 	
 	//Metodo che esegue la mossa del Computer, cercando la mossa migliore che sia a suo favore.
-	public void mossaComputer() {	
+	public void mossaComputer() {
+		
+		try {
+			TimeUnit.SECONDS.sleep(10);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 			ArrayList<Cell> bianche = new ArrayList<Cell>();
 			ArrayList<Cell> nere = new ArrayList<Cell>();
