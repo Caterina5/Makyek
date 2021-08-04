@@ -467,6 +467,7 @@ public class Gioco extends Scacchiera {
 				trovata = true;
 				
 				esegui(new Casella(x1,y1), new Casella(x2,y2));
+				System.out.println("ho eseguito la mossa del giocatore bianco");
 			
 				if(giocatoreNero.isTurno()) {
 					if(puoAncoraGiocare(giocatoreNero)) {

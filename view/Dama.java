@@ -10,19 +10,19 @@ import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Time;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.Timer;
 import javax.swing.border.LineBorder;
 
 import model.Cell;
 import model.Move;
 import model.Scacchiera;
 import controller.Gioco;
-import controller.ValutaMosse;
+
 
 
 public class Dama extends JFrame {
@@ -38,14 +38,11 @@ public class Dama extends JFrame {
 	public Dama(Gioco gioco) {
 		super("Mak-Yek");
 		this.gioco = gioco;
-
 				
 		// Imposto la grafica
 		this.setLayout(new GridLayout(8, 8));
-		System.out.println("disegno griglia");
+		
 		//Centro la finestra
-		
-		
 		setSize(720, 720);
 		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
 		int x = (int) ((dimension.getWidth() - this.getWidth()) / 2);
@@ -53,16 +50,21 @@ public class Dama extends JFrame {
 		
 		this.setLocation(x, y);
 		setResizable(false);
-		this.setFocusable(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		try {
-			Thread.sleep(4000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if(Scacchiera.intelligenzaVSintelligenza==true) {
+			gioco.giocatoreBianco.setTurno(true);
+			generaScacchiera();
+			ActionListener taskPerformer = new ActionListener() {
+			      public void actionPerformed(ActionEvent evt) {
+			       showBoard(-1,-1);
+			      }
+			    };
+			
+			Timer timer = new Timer(4000 ,taskPerformer);
+			timer.setRepeats(true);
+			timer.start();
 		}
-		
 		showBoard(-1,-1);
 		this.setVisible(true);
 	}
@@ -260,66 +262,98 @@ public class Dama extends JFrame {
 		}
 		
 		if(Scacchiera.intelligenzaVSintelligenza==true) {
-			gioco.giocatoreBianco.setTurno(true);
 			
-			//setVisible(true);
-			//inizio scansione scacchiera
-			for (int y = 0; y < 8; y++) {
-				for (int x = 0; x < 8; x++) {
-					
-					final Casella p;
-					//se la casella x,y corrisponde a una casella suggerita verrà colorata altrimenti
-					//gli viene assegnata la pedina corrispondente
+			if (gioco.giocatoreBianco.turno) {
+			
+				Move mossa= getMossa();
+				gioco.esegui(new Casella(mossa.x,mossa.y), new Casella(mossa.row,mossa.col));					
+				System.out.println("ho eseguito la mossa del giocatore bianco");
+				
+				gioco.giocatoreNero.setTurno(true);
+				gioco.giocatoreBianco.setTurno(false);		
+			} 
+			
+			if (gioco.giocatoreNero.turno) {
+				
+				Move mossa= getMossa();
+				gioco.esegui(new Casella(mossa.x,mossa.y), new Casella(mossa.row,mossa.col));			
+				
+				System.out.println("ho eseguito la mossa del giocatore nero");
+				gioco.giocatoreBianco.setTurno(true);
+				gioco.giocatoreNero.setTurno(false);				
+			} 
 						
-					p = generaPedina(gioco.contenuto(y, x), x, y, false);
-							
-	
-					// Aggiungo il bottone
-					add(p);
+			if(gioco.giocatoreNero.isTurno()) {
+				if(gioco.puoAncoraGiocare(gioco.giocatoreNero)) {					
+					generaScacchiera();
+					ActionListener taskPerformer = new ActionListener() {
+					      public void actionPerformed(ActionEvent evt) {
+					       showBoard(-1,-1);
+					      }
+					    };
+					
+					Timer timer = new Timer(2000 ,taskPerformer);
+					timer.setRepeats(true);
+					timer.start();
 				}
+				else
+					gioco.endGame();
 			}
 			
-			try {
-					Thread.sleep(4000);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+			if(gioco.giocatoreBianco.isTurno()) {
+				if(gioco.puoAncoraGiocare(gioco.giocatoreBianco)) {					
+					generaScacchiera();
+					ActionListener taskPerformer = new ActionListener() {
+					      public void actionPerformed(ActionEvent evt) {
+					       showBoard(-1,-1);
+					      }
+					    };
+					
+					Timer timer = new Timer(2000 ,taskPerformer);
+					timer.setRepeats(true);
+					timer.start();
 				}
-			
-			//primo click, se ho cliccato su una pedina del player
-			if (gioco.giocatoreBianco.turno) {
-				System.out.println("Sono il bianco");
-				ArrayList<Cell> bianche = new ArrayList<Cell>();
-				ArrayList<Cell> nere = new ArrayList<Cell>();
-				ArrayList<Cell> vuote = new ArrayList<Cell>();
-				
-				for (int i = 0; i < Scacchiera.DIM_LATO; i++) {
-					for (int j = 0; j < Scacchiera.DIM_LATO; j++) {
-
-						if (gioco.colore(gioco.contenuto(i, j)) == Scacchiera.GiocatoreNERO) 
-							nere.add(new Cell(i,j,2));
-						else if (gioco.colore(gioco.contenuto(i, j)) == Scacchiera.GiocatoreBIANCO) 
-							bianche.add(new Cell(i,j,1));
-						else 
-							vuote.add(new Cell(i,j,0));
-					}
-				}
-				
-				
-				
-				Move mossa = gioco.valutaMosse.makeAnswerSet(nere, bianche, vuote);
-//			
-//				gioco.provaMossaGiocatore(mossa.x, mossa.y, mossa.row, mossa.col);
-//				
-			} 
-
-			// Distruggo e ridisegno la grafica
-			//getContentPane().removeAll();
-			//showBoard(-1,-1);
-			
+				else
+					gioco.endGame();
+			}					
 		}		
-
+	}
+	
+	private Move getMossa() {
+		ArrayList<Cell> bianche = new ArrayList<Cell>();
+		ArrayList<Cell> nere = new ArrayList<Cell>();
+		ArrayList<Cell> vuote = new ArrayList<Cell>();
 		
+		for (int i = 0; i < Scacchiera.DIM_LATO; i++) {
+			for (int j = 0; j < Scacchiera.DIM_LATO; j++) {
+
+				if (gioco.colore(gioco.contenuto(i, j)) == Scacchiera.GiocatoreNERO) 
+					nere.add(new Cell(i,j,2));
+				else if (gioco.colore(gioco.contenuto(i, j)) == Scacchiera.GiocatoreBIANCO) 
+					bianche.add(new Cell(i,j,1));
+				else 
+					vuote.add(new Cell(i,j,0));
+			}
+		}			
+		return gioco.valutaMosse.makeAnswerSet(nere, bianche, vuote);
+	}
+
+	
+
+	void generaScacchiera() {
+		getContentPane().removeAll();
+		for (int y = 0; y < 8; y++) {
+			for (int x = 0; x < 8; x++) {
+				
+				final Casella p;	
+				p = generaPedina(gioco.contenuto(y, x), x, y, false);
+				add(p);
+			}
+		}
+		repaint();
+		invalidate();
+		validate();
+		setVisible(true);
 	}
 
 	private Casella generaPedina(int valore, int x, int y, boolean colore) { //crea una pedina del colore giusto

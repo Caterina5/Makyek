@@ -23,7 +23,7 @@ public class ValutaMosse {
 
 	
 	public ValutaMosse() {
-	System.out.println("CAZZOOOOOOOOOOOOOO");
+
 	handler = new DesktopHandler(new DLV2DesktopService("lib/dlv2.exe"));	
 			
 		try {
@@ -46,7 +46,7 @@ public class ValutaMosse {
 	
 		
 	public Move makeAnswerSet(ArrayList<Cell> nere, ArrayList<Cell> bianche, ArrayList<Cell> vuote) {					
-		System.out.println("SONO QUIIIIIIIIIIIII");
+	
 		InputProgram facts= new ASPInputProgram();
 		
 			try {
