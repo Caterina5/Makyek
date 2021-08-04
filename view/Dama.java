@@ -19,7 +19,6 @@ import javax.swing.Timer;
 import javax.swing.border.LineBorder;
 
 import model.Cell;
-import model.Giocatore;
 import model.Move;
 import model.Scacchiera;
 import controller.Gioco;
@@ -129,7 +128,7 @@ public class Dama extends JFrame {
 		boolean trovata=false;
 		
 		if(Scacchiera.giocatoreVSgiocatore==true) {
-			System.out.println("Entro qui");
+			
 			//inizio scansione scacchiera
 		for (int y = 0; y < 8; y++) {
 			for (int x = 0; x < 8; x++) {
@@ -386,7 +385,7 @@ public class Dama extends JFrame {
 			
 			Pedina pedColorata = new Pedina(valore);
 			if(giocatore==2) 
-				pedColorata.setBorder(new LineBorder(Color.RED, 4));
+				pedColorata.setBorder(new LineBorder(Color.GREEN, 4));
 			else
 				pedColorata.setBorder(new LineBorder(Color.BLUE, 4));
 						
@@ -433,6 +432,7 @@ public class Dama extends JFrame {
 		if (y == 3)
 			if (x % 2 == 1)
 				return new Vuota(Color.lightGray);
+		
 		// Penso a colorare la parte centrale
 		if (y == 4)
 			if (x % 2 == 0)

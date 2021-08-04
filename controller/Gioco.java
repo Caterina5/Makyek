@@ -26,26 +26,14 @@ public class Gioco extends Scacchiera {
 	
 	public Giocatore giocatoreBianco = new Giocatore(Colore.BIANCO);
 	public Giocatore giocatoreNero = new Giocatore(Colore.NERO);
-	
 	public ValutaMosse 	valutaMosse = new ValutaMosse();
-
-//	//turno
-//	public int aChiTocca = GiocatoreBIANCO;
-	// Mossa in preparazione per essere poi eseguita. 
-	//public Mossa mossaInFormazione = null;
-
+	public String msg = "";
 	
-	 // Messaggio che commenta l'esito dell'ultima chiamata a una delle due
-	 // funzioni puoAndare.
-	 public String msg = "";
-
-	 //costruttore
 	 public Gioco() {
 		super();
 	 }
 	
-//	  Ritorna il colore opposto a quello dato: bianco per nero e nero per bianco
-	 
+//	  Ritorna il colore opposto a quello dato: bianco per nero e nero per bianco	
 	public Colore coloreOpposto(Colore colore) {
 		switch (colore) {
 		case BIANCO:
@@ -103,8 +91,7 @@ public class Gioco extends Scacchiera {
 	}
 	
 
-	// Ritorna la casella adiacente a quella data, secondo la direzione
-	 
+	// Ritorna la casella adiacente a quella data, secondo la direzione	 
 	public Casella casellaAdiacente(Casella c, int direz) {
 		
 		Casella c2 = null;
@@ -236,18 +223,15 @@ public class Gioco extends Scacchiera {
 				esegui(new Casella(x1,y1), new Casella(x2,y2));
 				System.out.println("ho eseguito la mossa del giocatore bianco");
 			
-				if(giocatoreNero.isTurno()) {
-					if(puoAncoraGiocare(giocatoreNero) && Scacchiera.giocatoreVSintelligenza) {
-							mossaComputer();
-					}else if(puoAncoraGiocare(giocatoreNero) && Scacchiera.giocatoreVSgiocatore) {
-						return null;
-					}
-					else
-						return endGame();
-				}
-				else if(giocatoreBianco.isTurno() ){
-					if(!puoAncoraGiocare(giocatoreBianco))
-						return endGame();
+				if(giocatoreNero.isTurno()) {					
+					if(!puoAncoraGiocare(giocatoreNero)) 
+						return endGame();						
+					else if(puoAncoraGiocare(giocatoreNero) && Scacchiera.giocatoreVSintelligenza) 
+						mossaComputer();				
+				}				
+				if(giocatoreBianco.isTurno() ){
+					if(!puoAncoraGiocare(giocatoreBianco)) 
+						return endGame();								
 				}
 			}
 		}

@@ -22,20 +22,15 @@ public class Scacchiera
   public static boolean giocatoreVSgiocatore;
   public static boolean giocatoreVSintelligenza;
   public static boolean intelligenzaVSintelligenza;
-
-
-  
   
   protected int[][] contenutoCaselle;
-  
-//costruttore  
+   
   public Scacchiera()
   {
     contenutoCaselle = new int[DIM_LATO][DIM_LATO];
     statoIniziale();
   }
   
-  // metodi
   // Controlla, date riga e colonna, se una casella e' nera. 
   public boolean eNera(int riga, int colonna)
   {  return ( (riga % 2) == (colonna % 2) );  }
@@ -59,8 +54,6 @@ public class Scacchiera
 	      else contenutoCaselle[r][c] = VUOTA; // caselle bianche
 	    }
   }
-
-  
 
   // Ritorna il colore di un pezzo, dato il codice del pezzo. 
   public int colore(int pezzo)
@@ -95,25 +88,11 @@ public class Scacchiera
   public boolean metti(Casella cas, int pezzo)
   {  return metti(cas.riga, cas.colonna, pezzo);  }
 
-  // Controlla, date riga e colonna, se una casella e' dentro i
-  // limiti della scacchiera.
-   
+  // Controlla, date riga e colonna, se una casella e' dentro i limiti della scacchiera.  
   public boolean eDentro(int riga, int colonna){  
 	  return ( ((riga>=0) && (riga<DIM_LATO)) && ((colonna>=0) && (colonna<DIM_LATO)) );
   }
   
-  //
   public boolean eDentro(Casella c)  {  return eDentro(c.riga,c.colonna);  }
-
- 
-//  public boolean bordoOpposto(Casella c, int col)
-//  {
-//    switch (col)
-//    {
-//      case GiocatoreNERO: return ( c.riga==(DIM_LATO-1) );
-//      case GiocatoreBIANCO: return ( c.riga==0 );
-//    }
-//    return false;
-//  }
 
 }
