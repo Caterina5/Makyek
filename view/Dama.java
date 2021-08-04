@@ -56,10 +56,11 @@ public class Dama extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		if(Scacchiera.intelligenzaVSintelligenza==true) {			
+			
 			generaScacchiera();
+			
 			ActionListener taskPerformerBianco = new ActionListener() {
-			      public void actionPerformed(ActionEvent evt) {			    
-			    	  generaScacchiera();
+			      public void actionPerformed(ActionEvent evt) {			    			    	  
 			    	  intelligenzaVSintelligenzaBianco();
 			      }
 			    };
@@ -67,10 +68,10 @@ public class Dama extends JFrame {
 			 timerBianco= new Timer(2000, taskPerformerBianco);
 			 timerBianco.start();
 			 
-			    
+			 generaScacchiera();
+			 
 			ActionListener taskPerformerNero = new ActionListener() {
-			      public void actionPerformed(ActionEvent evt) {			    
-			    	  generaScacchiera();
+			      public void actionPerformed(ActionEvent evt) {			    			    
 			    	  intelligenzaVSintelligenzaNero();
 			      }
 			    };
@@ -89,16 +90,14 @@ public class Dama extends JFrame {
 			timerBianco.stop();
 			timerNero.stop();
 			stampaMessaggio(gioco.endGame());
-		}							
-			
-		generaScacchiera();		
+		}								
 				
 		if (gioco.giocatoreBianco.turno) {
 			
 			System.out.println("\n ++ è il turno del giocatore Bianco");
 			Move mossa= getMossaBianco();
 			gioco.esegui(new Casella(mossa.x,mossa.y), new Casella(mossa.row,mossa.col));			
-			
+			generaScacchiera();
 			System.out.println("ho eseguito la mossa del giocatore bianco");				
 		} 									
 	}
@@ -109,16 +108,14 @@ public class Dama extends JFrame {
 			timerNero.stop();
 			timerBianco.stop();
 			stampaMessaggio(gioco.endGame());
-		}							
-			
-		generaScacchiera();		
+		}									
 				
 		if (gioco.giocatoreNero.turno) {
 			
 			System.out.println("\n ++ è il turno del giocatore nero");
 			Move mossa= getMossaNero();
 			gioco.esegui(new Casella(mossa.x,mossa.y), new Casella(mossa.row,mossa.col));			
-			
+			generaScacchiera();
 			System.out.println("ho eseguito la mossa del giocatore nero");				
 		} 									
 	}		
